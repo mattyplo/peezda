@@ -1,3 +1,8 @@
 .footer {
-  color: purple
+  color: purple;
+  background: #F0F8FF;
+  border-style: double;
+  border-color: black;
+  height: 80px;
+  background-color: pink;
 }

@@ -1,4 +1,7 @@
 .GameHeader {
   border-style: double;
   border-color: blue;
+  color: #8A2BE2;
+  height: 80px;
+  background-color: green;
 }
