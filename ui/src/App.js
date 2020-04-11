@@ -1,11 +1,15 @@
 import React from 'react';
 import './App.css';
-import NewGame from './components/newGame';
+import Home from './components/home.js';
+import Header from './components/header.js';
+import Footer from './components/footer.js'
 
 function App() {
   return (
     <div className="App">
-      <NewGame/>
+      <Header/>
+      <Home/>
+      <Footer/>
     </div>
   );
 }
