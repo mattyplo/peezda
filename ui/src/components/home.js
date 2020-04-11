@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import './home.css'
+import NewGameForm from './newGameForm/newGameForm.js';
 
 class Home extends Component {
   render() {
     return(
       <div>
         <div className="MainBody">
-          <h2> Let's role some dice! </h2>
+          <NewGameForm/>
         </div>
       </div>
     )
