@@ -11,9 +11,7 @@ class Header extends Component {
           <li>
             <Link to="/">New Game</Link>
           </li>
-          <li>
-            <Link to="/match">Current Game</Link>
-          </li>
+            <Link to="/match"> Match </Link>
         </ul>
       </div>
     )
