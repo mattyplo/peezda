@@ -1,12 +1,14 @@
 const initialState = {
-  gameInSession: false
+  gameInSession: false,
+  players: {}
 };
 
 const game = (state = initialState, action) => {
   switch (action.type) {
     case 'START_NEW_GAME':
       return {...state,
-      gameInSession: true
+      gameInSession: true,
+      players: action.players
     }
 
     default: {
