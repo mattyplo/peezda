@@ -9,7 +9,7 @@ class NewGameForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      numberOfOpponents: "one",
+      numberOfOpponents: "1",
       createNewGame: false
     };
 
@@ -20,7 +20,11 @@ class NewGameForm extends Component {
   handleSubmit(event) {
     event.preventDefault();
     // fire startNewGame action
-    this.props.startNewGame();
+    // number of players = number of opponents + the user.
+    // Need to convert numberOfOpponents in state to number
+    const numberOfPlayers = Number(this.state.numberOfOpponents) + 1;
+    // Start a new game passing in number of players as an argument.
+    this.props.startNewGame(numberOfPlayers);
     // change local State createNewGame to true
     this.setState({
       createNewGame: true
@@ -33,14 +37,9 @@ class NewGameForm extends Component {
 
   render() {
 
-    console.log(this.state.numberOfOpponents)
-
     // If user creates newGame, redirect to the Game component.
     if (this.state.createNewGame) {
-       return (<Redirect to={{
-         pathname: '/match',
-         state: { numberOfOpponents: this.state.numberOfOpponents }
-       }} />)
+       return <Redirect to='/match'/>
     }
 
     return (
@@ -48,9 +47,9 @@ class NewGameForm extends Component {
         <form onSubmit={this.handleSubmit}>
           <label for="number of players">Number of Opponents</label>
           <select id="numberOfPlayers" name="numberOfPlayers" onChange={this.changeNumberOpponents}>
-            <option value="one">one</option>
-            <option value="two">two</option>
-            <option value="three">three</option>
+            <option value="1">one</option>
+            <option value="2">two</option>
+            <option value="3">three</option>
           </select>
           <input type="submit" value="Submit"/>
         </form>
@@ -61,7 +60,7 @@ class NewGameForm extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    startNewGame: () => dispatch(startNewGame())
+    startNewGame: (numberOfPlayers) => dispatch(startNewGame(numberOfPlayers))
   }
 }
 
