@@ -5,7 +5,8 @@ describe('game reducer', () => {
   it('should return the intial state', () => {
     expect(reducer(undefined, {})).toEqual(
       {
-        gameInSession: false
+        gameInSession: false,
+        players: {}
       })
   })
 
@@ -13,10 +14,30 @@ describe('game reducer', () => {
     expect(
       reducer({}, {
         type: START_NEW_GAME,
+        players: {
+          1: {
+            isHuman: true,
+            score: 0,
+          },
+          2: {
+            isHuman: false,
+            score: 0,
+          },
+        }
       })
     ).toEqual(
       {
-        gameInSession: true
+        gameInSession: true,
+        players: {
+          1: {
+            isHuman: true,
+            score: 0,
+          },
+          2: {
+            isHuman: false,
+            score: 0,
+          },
+        }
       })
   })
 })
