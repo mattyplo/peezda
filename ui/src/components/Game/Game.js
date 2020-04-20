@@ -6,8 +6,7 @@ class Game extends Component {
 
   render() {
 
-    const { players } = this.props
-    console.log(players)
+    const { players } = this.props; 
     return (
       <div>
         <h1>Game!</h1>
@@ -26,7 +25,8 @@ class Game extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    players: state.game.players
+    players: state.game.players,
+    turn: state.game.turn
   }
 }
 

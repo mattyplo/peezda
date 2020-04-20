@@ -1,6 +1,7 @@
 const initialState = {
   gameInSession: false,
-  players: {}
+  players: {},
+  turn: null
 };
 
 const game = (state = initialState, action) => {

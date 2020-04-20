@@ -12,6 +12,14 @@ export const startNewGame = (numberOfPlayers) => {
 
 }
 
+export const rollDice = () => {
+  const diceRoll = Math.floor((Math.random() * 6) + 1)
+  console.log('dice roll = ' + diceRoll);
+  return {
+    type: 'NOTHING_YET'
+  }
+}
+
 const createPlayers = (numberOfPlayers) => {
   // create an object of players,  player one is human. the rest are computer.
   let players = {};
