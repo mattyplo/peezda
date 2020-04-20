@@ -6,7 +6,8 @@ describe('game reducer', () => {
     expect(reducer(undefined, {})).toEqual(
       {
         gameInSession: false,
-        players: {}
+        players: {},
+        turn: null
       })
   })
 
@@ -37,7 +38,8 @@ describe('game reducer', () => {
             isHuman: false,
             score: 0,
           },
-        }
+        },
+        
       })
   })
 })
