@@ -25,7 +25,8 @@ export class PlayerCard extends Component {
   }
 
   roll = () => {
-    this.props.rollDice()
+    const { playerId } = this.props
+    this.props.rollDice(playerId)
     this.setState({
       rollEnabled: false
     })
@@ -57,7 +58,7 @@ export class PlayerCard extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    rollDice: () => dispatch(rollDice())
+    rollDice: (playerId) => dispatch(rollDice(playerId))
   }
 }
 

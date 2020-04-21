@@ -12,6 +12,17 @@ const game = (state = initialState, action) => {
       players: action.players
     }
 
+    case 'ROLL_DICE':
+      return {...state,
+        players: {
+          ...state.players,
+          [action.playerId]: {
+            ...state.players[action.playerId],
+            roll: action.diceRoll
+          }
+        }
+      }
+
     default: {
       return state;
     }

@@ -1,5 +1,6 @@
 export const START_NEW_GAME = 'START_NEW_GAME';
 export const ADD_PLAYERS = 'ADD_PLAYERS';
+export const ROLL_DICE = 'ROLL_DICE';
 
 export const startNewGame = (numberOfPlayers) => {
     // create players
@@ -12,11 +13,13 @@ export const startNewGame = (numberOfPlayers) => {
 
 }
 
-export const rollDice = () => {
+export const rollDice = (playerId) => {
   const diceRoll = Math.floor((Math.random() * 6) + 1)
   console.log('dice roll = ' + diceRoll);
   return {
-    type: 'NOTHING_YET'
+    type: ROLL_DICE,
+    playerId,
+    diceRoll
   }
 }
 
@@ -30,7 +33,8 @@ const createPlayers = (numberOfPlayers) => {
     }
     players[i] = {
       isHuman,
-      score: 0
+      score: 0,
+      roll: null
     }
   }
   return players;
