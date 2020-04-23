@@ -23,6 +23,16 @@ const game = (state = initialState, action) => {
         }
       }
 
+    case 'CHANGE_TURN':
+      return {...state,
+        turn: action.playerId
+      }
+
+    case 'INITIAL_ROLL_ROLL_OFF':
+      return {...state,
+        players: action.players
+      }
+
     default: {
       return state;
     }
