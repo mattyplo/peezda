@@ -35,31 +35,6 @@ class Game extends Component {
     return true;
   }
 
-  // determineOrder = () => {
-  //   const { players, changeTurn } = this.props;
-  //   var highRoll = 0;
-  //   var playersWithHighRoll = [];
-  //   for (var playerId in players) {
-  //     // if the player has the highest roll, they are now the sole player on the list.
-  //     if (players[playerId].roll > highRoll) {
-  //       playersWithHighRoll = [];
-  //       playersWithHighRoll.push(playerId);
-  //       highRoll = players[playerId].roll;
-  //     } else if (players[playerId].roll === highRoll) {
-  //       // The player shares a high roll with at least another player.
-  //       playersWithHighRoll.push(playerId);
-  //     }
-  //   }
-  //   console.log(playersWithHighRoll)
-  //   // if more then one player share the high roll, they roll again.
-  //
-  //   // if only one player has the high roll, they go first.
-  //   if (playersWithHighRoll.length === 1) {
-  //     const playerIdWithHighRoll = playersWithHighRoll[0];
-  //     changeTurn(playerIdWithHighRoll);
-  //   }
-  // }
-
   render() {
 
     const { players } = this.props;
