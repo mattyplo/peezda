@@ -24,8 +24,22 @@ export class PlayerCard extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    // Enable another roll
+    if (this.props.rollAgain === true && prevProps.rollAgain !== true) {
+      this.setState({
+        rollEnabled: true
+      })
+      // If it's a computer player, roll for them
+      if (!this.props.isHuman) {
+        this.roll();
+      }
+    }
+  }
+
   roll = () => {
-    this.props.rollDice()
+    const { playerId } = this.props
+    this.props.rollDice(playerId)
     this.setState({
       rollEnabled: false
     })
@@ -33,14 +47,11 @@ export class PlayerCard extends Component {
 
   render() {
 
-    const { rollEnabled, currentRoll } = this.state;
+    const { rollEnabled } = this.state;
     const { playerId, score, isHuman } = this.props;
-    let rollButton, roll;
+    let rollButton;
     if (isHuman) {
       rollButton = <button onClick={this.roll} disabled={rollEnabled ? false : true}>Role</button>
-    }
-    if (currentRoll) {
-      roll = <h3>Roll = {currentRoll}</h3>
     }
 
     return (
@@ -48,7 +59,6 @@ export class PlayerCard extends Component {
         <h3>Player{playerId}</h3>
         <h3>score = {score}</h3>
         <h3>{isHuman ? 'You' : 'Computer' }</h3>
-        {roll}
         {rollButton}
       </div>
     )
@@ -57,10 +67,17 @@ export class PlayerCard extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    rollDice: () => dispatch(rollDice())
+    rollDice: (playerId) => dispatch(rollDice(playerId))
+  }
+}
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    rollAgain: state.game.players[ownProps.playerId].rollAgain,
+
   }
 }
 
 export default compose(
-  connect(null, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps)
 )(PlayerCard);

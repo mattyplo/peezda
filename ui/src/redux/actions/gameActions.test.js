@@ -7,13 +7,17 @@ describe('gameActions', () => {
       players: {
         1: {
           isHuman: true,
+          roll: null,
+          rollAgain: false,
           score: 0,
         },
         2: {
           isHuman: false,
+          roll: null,
+          rollAgain: false,
           score: 0,
         },
-      }, 
+      },
     }
     expect(gameActions.startNewGame(2)).toEqual(expectedAction);
   })
