@@ -7,7 +7,15 @@ describe('game reducer', () => {
       {
         gameInSession: false,
         players: {},
-        turn: null
+        turn: null,
+        dice: {
+          1: { value: 1 },
+          2: { value: 1 },
+          3: { value: 1 },
+          4: { value: 1 },
+          5: { value: 1 },
+          6: { value: 1 },
+        }
       })
   })
 
@@ -39,7 +47,7 @@ describe('game reducer', () => {
             score: 0,
           },
         },
-        
+
       })
   })
 })

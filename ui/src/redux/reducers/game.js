@@ -1,7 +1,15 @@
 const initialState = {
   gameInSession: false,
   players: {},
-  turn: null
+  turn: null,
+  dice: {
+    1: { value: 1 },
+    2: { value: 1 },
+    3: { value: 1 },
+    4: { value: 1 },
+    5: { value: 1 },
+    6: { value: 1 },
+  }
 };
 
 const game = (state = initialState, action) => {
@@ -12,15 +20,21 @@ const game = (state = initialState, action) => {
       players: action.players
     }
 
-    case 'ROLL_DICE':
+    case 'PRE_ROLL':
       return {...state,
         players: {
           ...state.players,
           [action.playerId]: {
             ...state.players[action.playerId],
-            roll: action.diceRoll
+            roll: action.diceRoll,
+            rollAgain: false
           }
         }
+      }
+
+    case 'ROLL_DICE':
+      return {...state,
+        dice: action.dice
       }
 
     case 'CHANGE_TURN':

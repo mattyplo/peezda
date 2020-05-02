@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { changeTurn, initialRollFaceOff, determineOrder } from '../../redux/actions/gameActions';
-import PlayerCard from '../PlayerCard/PlayerCard.js';
+import Seats from '../Seats/Seats.js';
+import Table from '../Table/Table.js';
+import './Game.css'
 
 class Game extends Component {
 
@@ -37,18 +39,15 @@ class Game extends Component {
 
   render() {
 
-    const { players } = this.props;
+    const { players, turn } = this.props;
     return (
-      <div>
+      <div id='game'>
         <h1>Game!</h1>
-        {Object.keys(players).map((id, i) =>
-          <PlayerCard
-            key={id}
-            playerId={id}
-            score={players[id].score}
-            isHuman={players[id].isHuman}
-          />
-        )}
+        <Seats
+          players={ players }
+          turn={ turn }
+        />
+        <Table/>
       </div>
     )
   }

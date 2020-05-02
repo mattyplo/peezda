@@ -1,0 +1,7 @@
+.die {
+  float: left;
+}
+
+.die, img {
+  width: 40%;
+}
