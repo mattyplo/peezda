@@ -1,5 +1,6 @@
 export const START_NEW_GAME = 'START_NEW_GAME';
 export const ADD_PLAYERS = 'ADD_PLAYERS';
+export const PRE_ROLL = 'PRE_ROLL';
 export const ROLL_DICE = 'ROLL_DICE';
 export const CHANGE_TURN = 'CHANGE_TURN';
 export const INITIAL_ROLL_ROLL_OFF = 'INITIAL_ROLL_ROLL_OFF';
@@ -15,11 +16,35 @@ export const startNewGame = (numberOfPlayers) => {
 
 }
 
-export const rollDice = (playerId) => {
+export const roll = () => {
+  const diceRoll = rollDice(6);
+  const dice = {}
+  for (var die in diceRoll) {
+    // add one to the identifier of the dice object so dice 1 is one and not 0 and so on.
+    var index = parseInt(die) + 1
+    dice[index] = { value: diceRoll[die] };
+  }
+
+  return {
+    type: ROLL_DICE,
+    dice
+  }
+}
+
+const rollDice = (numDice = 1) => {
+  var diceRoll = []
+  for (var i = 0; i < numDice; i ++) {
+    var dieRoll = Math.floor((Math.random() * 6) + 1);
+    diceRoll.push(dieRoll);
+  }
+  return diceRoll;
+}
+
+export const preRoll = (playerId) => {
   const diceRoll = Math.floor((Math.random() * 6) + 1)
   console.log('dice roll = ' + diceRoll);
   return {
-    type: ROLL_DICE,
+    type: PRE_ROLL,
     playerId,
     diceRoll
   }
