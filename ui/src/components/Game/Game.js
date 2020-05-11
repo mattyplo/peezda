@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { changeTurn, initialRollFaceOff, determineOrder } from '../../redux/actions/gameActions';
+import { isPeezda } from '../../utility/rules.js';
 import Seats from '../Seats/Seats.js';
 import Table from '../Table/Table.js';
 import './Game.css'
@@ -14,7 +15,7 @@ class Game extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { turn, players, determineOrder } = this.props;
+    const { turn, players, determineOrder, dice } = this.props;
     // if turn is null, we need to determine who rolls first
     if (turn === null && prevProps.players !== players) {
       // check if all players have rolled.
@@ -22,6 +23,12 @@ class Game extends Component {
         // determine results from initial roll
         determineOrder(players);
       }
+    }
+
+    // Check for Peezda after each diceRoll.
+    if (dice !== prevProps.dice) {
+      const peezda = isPeezda(dice);
+      console.log(peezda);
     }
   }
 
@@ -62,9 +69,13 @@ const mapDispatchToProps = dispatch => {
 }
 
 const mapStateToProps = (state) => {
+
+  const { players, turn, dice } = state.game
+
   return {
-    players: state.game.players,
-    turn: state.game.turn
+    players,
+    turn,
+    dice
   }
 }
 

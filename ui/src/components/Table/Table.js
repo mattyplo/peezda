@@ -5,7 +5,7 @@ import Die from '../Die/Die.js';
 import './Table.css';
 
 class Table extends Component {
-
+  
   render() {
 
     const { dice } = this.props;
