@@ -3,12 +3,30 @@ const initialState = {
   players: {},
   turn: null,
   dice: {
-    1: { value: 1 },
-    2: { value: 1 },
-    3: { value: 1 },
-    4: { value: 1 },
-    5: { value: 1 },
-    6: { value: 1 },
+    1: {
+      value: 1,
+      isHeld: false
+    },
+    2: {
+      value: 1,
+      isHeld: false
+    },
+    3: {
+      value: 1,
+      isHeld: false
+    },
+    4: {
+      value: 1,
+      isHeld: false
+    },
+    5: {
+      value: 1,
+      isHeld: false
+    },
+    6: {
+      value: 1,
+      isHeld: false 
+    },
   }
 };
 
