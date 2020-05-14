@@ -17,3 +17,14 @@ export const isPeezda = (dice) => {
   // else, we have a Peezda, return true.
   return true;
 }
+
+export const calculateNextPlayersTurn = (currentPlayersTurn, numPlayers) => {
+  const currentPlayersTurnInteger = Number(currentPlayersTurn);
+  var newTurn;
+  if (currentPlayersTurnInteger === numPlayers) {
+    newTurn = 1;
+  } else {
+    newTurn = currentPlayersTurnInteger + 1;
+  }
+  return newTurn.toString();
+}
