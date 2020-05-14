@@ -11,6 +11,10 @@ class Game extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      advanceTurnEnabled: false
+    }
+
     this.allPlayersRolled = this.allPlayersRolled.bind(this);
   }
 
@@ -28,7 +32,13 @@ class Game extends Component {
     // Check for Peezda after each diceRoll.
     if (dice !== prevProps.dice) {
       const peezda = isPeezda(dice);
-      console.log(peezda);
+      // if peezda, enable AdvanceTurn
+      if (peezda) {
+        this.setState({
+          advanceTurnEnabled: true
+        })
+      }
+      // if not peezda, allow user to pick dice to hold.
     }
   }
 
@@ -47,6 +57,8 @@ class Game extends Component {
   render() {
 
     const { players, turn } = this.props;
+    const { advanceTurnEnabled } = this.state;
+
     return (
       <div id='game'>
         <h1>Game!</h1>
@@ -54,7 +66,11 @@ class Game extends Component {
           players={ players }
           turn={ turn }
         />
-        <Table/>
+        <Table
+          players = { players }
+          turn={ turn }
+          advanceTurnEnabled={ advanceTurnEnabled }
+        />
       </div>
     )
   }
