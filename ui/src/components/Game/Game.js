@@ -56,7 +56,7 @@ class Game extends Component {
 
   render() {
 
-    const { players, turn } = this.props;
+    const { players, turn, dice } = this.props;
     const { advanceTurnEnabled } = this.state;
 
     return (
@@ -67,6 +67,7 @@ class Game extends Component {
           turn={ turn }
         />
         <Table
+          dice = { dice }
           players = { players }
           turn={ turn }
           advanceTurnEnabled={ advanceTurnEnabled }

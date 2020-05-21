@@ -70,10 +70,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    dice: state.game.dice
-  }
-}
-
-export default compose(connect(mapStateToProps, mapDispatchToProps))(Table);
+export default compose(connect(null, mapDispatchToProps))(Table);
