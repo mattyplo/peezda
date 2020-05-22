@@ -22,7 +22,10 @@ export const roll = () => {
   for (var die in diceRoll) {
     // add one to the identifier of the dice object so dice 1 is one and not 0 and so on.
     var index = parseInt(die) + 1
-    dice[index] = { value: diceRoll[die] };
+    dice[index] = {
+                    value: diceRoll[die],
+                    isHeld: false
+                  };
   }
 
   return {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { selectDiceToHold } from '../../utility/computerStrategy';
 
 export class ComputerPlayer extends Component {
 
@@ -12,7 +13,8 @@ export class ComputerPlayer extends Component {
 
   componentDidUpdate(prevProps) {
 
-    const { isTurn, preRoll, roll } = this.props;
+    const { isTurn, preRoll, roll, dice } = this.props;
+
     // Enable another roll
     if (this.props.rollAgain === true && prevProps.rollAgain !== true) {
       preRoll();
@@ -22,6 +24,17 @@ export class ComputerPlayer extends Component {
     if (isTurn && !prevProps.isTurn) {
       roll();
     }
+
+    // if the computer roled the dice, evaluate their next move
+    if (isTurn && prevProps.isTurn && dice !== prevProps.dice) {
+      // evaluate which dice to hold
+      this.determineMove();
+    }
+  }
+
+  determineMove = () => {
+    const { dice } = this.props;
+    const diceToHold = selectDiceToHold(dice);
   }
 
   render() {

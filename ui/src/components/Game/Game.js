@@ -65,6 +65,7 @@ class Game extends Component {
         <Seats
           players={ players }
           turn={ turn }
+          dice = { dice }
         />
         <Table
           dice = { dice }

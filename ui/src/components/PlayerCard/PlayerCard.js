@@ -41,7 +41,7 @@ export class PlayerCard extends Component {
   render() {
 
     const { rollEnabled } = this.state;
-    const { playerId, score, isHuman, rollAgain, isTurn } = this.props;
+    const { playerId, score, isHuman, rollAgain, isTurn, dice } = this.props;
     if (isHuman) {
       return (
         <HumanPlayer
@@ -58,6 +58,7 @@ export class PlayerCard extends Component {
     } else {
       return (
         <ComputerPlayer
+          dice={dice}
           rollEnabled={rollEnabled}
           playerId={playerId}
           score={score}

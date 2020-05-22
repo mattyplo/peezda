@@ -6,7 +6,7 @@ class Seats extends Component {
 
   render() {
 
-    const { players, turn } = this.props;
+    const { players, turn, dice } = this.props;
 
     return (
       <div id="seats" >
@@ -14,6 +14,7 @@ class Seats extends Component {
         var isTurn = (turn === id) ? true : false;
         return (
           <PlayerCard
+            dice={dice}
             key={id}
             playerId={id}
             score={players[id].score}
