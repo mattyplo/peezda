@@ -21,4 +21,158 @@ describe('gameActions', () => {
     }
     expect(gameActions.startNewGame(2)).toEqual(expectedAction);
   })
+
+  describe('determineOrder', () => {
+    it('should return type: CHANGE_TURN, playerId: 1, when player 1 has high roll', () => {
+      const mockPlayers = {
+        1: {
+          isHuman: true,
+          roll: 6,
+          rollAgain: false,
+          score: 0
+        },
+        2: {
+          isHuman: false,
+          roll: 4,
+          rollAgain: false,
+          score: 0
+        },
+        3: {
+          isHuman: false,
+          roll: 4,
+          rollAgain: false,
+          score: 0
+        },
+        4: {
+          isHuman: false,
+          roll: 4,
+          rollAgain: false,
+          score: 0
+        }
+      }
+      const expectedAction = {
+        type: gameActions.CHANGE_TURN,
+        playerId: "1"
+      }
+      expect(gameActions.determineOrder(mockPlayers)).toEqual(expectedAction);
+    })
+
+    it('Should return type: INITIAL_ROLL_ROLL_OFF, on tie', () => {
+      const mockPlayers = {
+        1: {
+          isHuman: true,
+          roll: 6,
+          rollAgain: false,
+          score: 0
+        },
+        2: {
+          isHuman: false,
+          roll: 6,
+          rollAgain: false,
+          score: 0
+        },
+        3: {
+          isHuman: false,
+          roll: 4,
+          rollAgain: false,
+          score: 0
+        },
+        4: {
+          isHuman: false,
+          roll: 4,
+          rollAgain: false,
+          score: 0
+        }
+      }
+      const expectedAction = {
+        type: gameActions.INITIAL_ROLL_ROLL_OFF,
+        players: {
+          1: {
+            isHuman: true,
+            roll: null,
+            rollAgain: true,
+            score: 0
+          },
+          2: {
+            isHuman: false,
+            roll: null,
+            rollAgain: true,
+            score: 0
+          },
+          3: {
+            isHuman: false,
+            roll: 0,
+            rollAgain: false,
+            score: 0
+          },
+          4: {
+            isHuman: false,
+            roll: 0,
+            rollAgain: false,
+            score: 0
+          }
+        }
+      }
+      expect(gameActions.determineOrder(mockPlayers)).toEqual(expectedAction);
+    })
+
+    it('Should return type: INITIAL_ROLL_ROLL_OFF, on second tie', () => {
+      const mockPlayers = {
+        1: {
+          isHuman: true,
+          roll: 0,
+          rollAgain: false,
+          score: 0
+        },
+        2: {
+          isHuman: false,
+          roll: 6,
+          rollAgain: false,
+          score: 0
+        },
+        3: {
+          isHuman: false,
+          roll: 6,
+          rollAgain: false,
+          score: 0
+        },
+        4: {
+          isHuman: false,
+          roll: 0,
+          rollAgain: false,
+          score: 0
+        }
+      }
+      const expectedAction = {
+        type: gameActions.INITIAL_ROLL_ROLL_OFF,
+        players: {
+          1: {
+            isHuman: true,
+            roll: 0,
+            rollAgain: false,
+            score: 0
+          },
+          2: {
+            isHuman: false,
+            roll: null,
+            rollAgain: true,
+            score: 0
+          },
+          3: {
+            isHuman: false,
+            roll: null,
+            rollAgain: true,
+            score: 0
+          },
+          4: {
+            isHuman: false,
+            roll: 0,
+            rollAgain: false,
+            score: 0
+          }
+        }
+      }
+      expect(gameActions.determineOrder(mockPlayers)).toEqual(expectedAction);
+    })
+  })
 })
