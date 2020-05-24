@@ -1,4 +1,5 @@
 const initialState = {
+  currentRollScore: 0,
   gameInSession: false,
   players: {},
   turn: null,
@@ -25,7 +26,7 @@ const initialState = {
     },
     6: {
       value: 1,
-      isHeld: false 
+      isHeld: false
     },
   }
 };

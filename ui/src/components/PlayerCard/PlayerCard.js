@@ -41,7 +41,7 @@ export class PlayerCard extends Component {
   render() {
 
     const { rollEnabled } = this.state;
-    const { playerId, score, isHuman, rollAgain, isTurn, dice } = this.props;
+    const { playerId, score, isHuman, rollAgain, isTurn, dice, currentRollScore } = this.props;
     if (isHuman) {
       return (
         <HumanPlayer
@@ -58,6 +58,7 @@ export class PlayerCard extends Component {
     } else {
       return (
         <ComputerPlayer
+          currentRollScore={currentRollScore}
           dice={dice}
           rollEnabled={rollEnabled}
           playerId={playerId}
@@ -83,6 +84,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = (state, ownProps) => {
   return {
     rollAgain: state.game.players[ownProps.playerId].rollAgain,
+    currentRollScore: state.game.currentRollScore
   }
 }
 

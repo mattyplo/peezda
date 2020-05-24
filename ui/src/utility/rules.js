@@ -18,6 +18,14 @@ export const isPeezda = (dice) => {
   return true;
 }
 
+export const getNumOfAKind = (dice) => {
+  var numOfAKind = [0, 0, 0, 0, 0, 0];
+  for (var die in dice ) {
+    numOfAKind[dice[die].value - 1] ++
+  }
+  return numOfAKind;
+}
+
 export const calculateNextPlayersTurn = (currentPlayersTurn, numPlayers) => {
   const currentPlayersTurnInteger = Number(currentPlayersTurn);
   var newTurn;
@@ -27,4 +35,64 @@ export const calculateNextPlayersTurn = (currentPlayersTurn, numPlayers) => {
     newTurn = currentPlayersTurnInteger + 1;
   }
   return newTurn.toString();
+}
+
+export const getScoreOfDice = (dice) => {
+  const numOfAKind = getNumOfAKind(dice);
+  var score = 0;
+  // tally score for each value of dice
+  for(var i = 0; i < numOfAKind.length; i++){
+    switch (numOfAKind[i]) {
+      case 1:
+        // 0 is the first value on a die, which is 1
+        if (i === 0) {
+          score += 100;
+        // 4 is the fifth value on a die, which is 5
+        } else if (i === 4) {
+          score += 50;
+        } // else any other value of 1 of a kind is nothing
+        break;
+      case 2:
+        // 0 is the first value on a die, which is 1
+        if (i === 0) {
+          score += 200;
+        // 4 is the fifth value on a die, which is 5
+        } else if (i === 4) {
+          score += 100;
+        } // else any other value of 1 of a kind is nothing
+        break;
+      case 3:
+        if (i === 0) {
+          score += 1000;
+        } else {
+          score += (i + 1) * 100;
+        }
+        break;
+      case 4:
+        if (i === 0) {
+          score += 2000;
+        } else {
+          score += (i + 1) * 200;
+        }
+        break;
+      case 5:
+        if (i === 0) {
+          score += 4000;
+        } else {
+          score += (i + 1) * 400;
+        }
+        break;
+      case 6:
+        if (i === 0) {
+          score += 8000;
+        } else {
+          score += (i + 1) * 800;
+        }
+        break;
+      // default is 0
+      default:
+        break;
+    }
+  }
+  return score;
 }

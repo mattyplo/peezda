@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { selectDiceToHold } from '../../utility/computerStrategy';
+import { getScoreOfDice } from '../../utility/rules.js';
 
 export class ComputerPlayer extends Component {
 
@@ -33,8 +34,13 @@ export class ComputerPlayer extends Component {
   }
 
   determineMove = () => {
-    const { dice } = this.props;
+    const { dice, score, currentRollScore } = this.props;
     const diceToHold = selectDiceToHold(dice);
+    const scoreOfCurrentDice = getScoreOfDice(diceToHold);
+    console.log(scoreOfCurrentDice);
+    // if min score is not met, holdDiceAndRollAgain
+
+    // if min score is met, holdDiceAndEndTurn
   }
 
   render() {
