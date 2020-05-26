@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { selectDiceToHold } from '../../utility/computerStrategy';
 import { getScoreOfDice } from '../../utility/rules.js';
+import { holdDice, scoreCurrentDice, enableRollAgain } from '../../redux/actions/gameActions.js';
 
 export class ComputerPlayer extends Component {
 
@@ -13,8 +15,7 @@ export class ComputerPlayer extends Component {
   }
 
   componentDidUpdate(prevProps) {
-
-    const { isTurn, preRoll, roll, dice } = this.props;
+    const { isTurn, preRoll, roll, dice, currentRollScore } = this.props;
 
     // Enable another roll
     if (this.props.rollAgain === true && prevProps.rollAgain !== true) {
@@ -34,13 +35,20 @@ export class ComputerPlayer extends Component {
   }
 
   determineMove = () => {
-    const { dice, score, currentRollScore } = this.props;
+    const { dice, score, currentRollScore, holdDice, playerId } = this.props;
     const diceToHold = selectDiceToHold(dice);
     const scoreOfCurrentDice = getScoreOfDice(diceToHold);
-    console.log(scoreOfCurrentDice);
     // if min score is not met, holdDiceAndRollAgain
-
-    // if min score is met, holdDiceAndEndTurn
+    // score == 0, min score >= 500, else min score >= 350
+    if ((score === 0 && scoreOfCurrentDice + currentRollScore < 500)
+    || (score > 0 && scoreOfCurrentDice + currentRollScore < 350)) {
+      holdDice(diceToHold, dice);
+      scoreCurrentDice(scoreOfCurrentDice);
+      enableRollAgain(playerId);
+    } else { // if min score is met, holdDiceAndEndTurn
+      console.log(diceToHold);
+      // endTurn()   -> NEED TO WRITE THIS FUNCTION
+    }
   }
 
   render() {
@@ -57,4 +65,12 @@ export class ComputerPlayer extends Component {
   }
 }
 
-export default ComputerPlayer;
+const mapDispatchToProps = dispatch => {
+  return {
+    enableRollAgain: (playerID) => dispatch(enableRollAgain(playerID)),
+    holdDice: (diceToHold, dice) => dispatch(holdDice(diceToHold, dice)),
+    scoreCurrentDice: (score) => dispatch(scoreCurrentDice(score))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(ComputerPlayer);

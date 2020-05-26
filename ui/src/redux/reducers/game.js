@@ -66,6 +66,30 @@ const game = (state = initialState, action) => {
         players: action.players
       }
 
+    case 'SCORE_CURRENT_DICE':
+      console.log(action)
+      return {...state,
+        currentRollScore: state.currentRollScore + action.score
+      }
+
+    case 'ENABLE_ROLL_AGAIN':
+      console.log(action.playerID)
+      return {...state,
+        players: {
+          ...state.players,
+          [action.playerID]: {
+            ...state.players[action.playerID],
+            rollAgain: true
+          }
+        }
+      }
+
+    case 'HOLD_DICE':
+      console.log(action)
+      return {...state,
+        dice: action.dice
+      }
+
     default: {
       return state;
     }

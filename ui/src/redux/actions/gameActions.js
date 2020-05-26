@@ -4,6 +4,10 @@ export const PRE_ROLL = 'PRE_ROLL';
 export const ROLL_DICE = 'ROLL_DICE';
 export const CHANGE_TURN = 'CHANGE_TURN';
 export const INITIAL_ROLL_ROLL_OFF = 'INITIAL_ROLL_ROLL_OFF';
+export const HOLD_DICE = 'HOLD_DICE';
+export const SCORE_CURRENT_DICE = 'SCORE_CURRENT_DICE';
+export const ENABLE_ROLL_AGAIN = 'ENABLE_ROLL_AGAIN';
+export const NEW_TYPE = 'NEW_TYPE';
 
 export const startNewGame = (numberOfPlayers) => {
     // create players
@@ -100,8 +104,30 @@ export const changeTurn = (playerId) => {
   }
 }
 
-export const initialRollFaceOff = (playerIds) => {
+export const holdDice = (diceToHold, dice) => {
+  for (var die in diceToHold) {
+    dice[die].isHeld = true;
+  }
+  return {
+    type: HOLD_DICE,
+    dice
+  }
+}
 
+export const scoreCurrentDice = (score) => {
+  console.log(score)
+  return {
+    type: SCORE_CURRENT_DICE,
+    score
+  }
+}
+
+export const enableRollAgain = (playerID) => {
+  console.log(playerID)
+  return {
+    type: ENABLE_ROLL_AGAIN,
+    playerID
+  }
 }
 
 const createPlayers = (numberOfPlayers) => {
