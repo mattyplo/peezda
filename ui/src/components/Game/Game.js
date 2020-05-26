@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { changeTurn, initialRollFaceOff, determineOrder } from '../../redux/actions/gameActions';
+import { changeTurn, determineOrder } from '../../redux/actions/gameActions';
 import { isPeezda } from '../../utility/rules.js';
 import Seats from '../Seats/Seats.js';
 import Table from '../Table/Table.js';
@@ -56,7 +56,7 @@ class Game extends Component {
 
   render() {
 
-    const { players, turn } = this.props;
+    const { players, turn, dice } = this.props;
     const { advanceTurnEnabled } = this.state;
 
     return (
@@ -65,8 +65,10 @@ class Game extends Component {
         <Seats
           players={ players }
           turn={ turn }
+          dice = { dice }
         />
         <Table
+          dice = { dice }
           players = { players }
           turn={ turn }
           advanceTurnEnabled={ advanceTurnEnabled }
@@ -79,7 +81,6 @@ class Game extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     changeTurn: (playerId) => dispatch(changeTurn(playerId)),
-    initialRollFaceOff: (playerIds) => dispatch(initialRollFaceOff(playerIds)),
     determineOrder: (players) => dispatch(determineOrder(players))
   }
 }

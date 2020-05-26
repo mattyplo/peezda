@@ -1,4 +1,5 @@
 const initialState = {
+  currentRollScore: 0,
   gameInSession: false,
   players: {},
   turn: null,
@@ -25,7 +26,7 @@ const initialState = {
     },
     6: {
       value: 1,
-      isHeld: false 
+      isHeld: false
     },
   }
 };
@@ -63,6 +64,30 @@ const game = (state = initialState, action) => {
     case 'INITIAL_ROLL_ROLL_OFF':
       return {...state,
         players: action.players
+      }
+
+    case 'SCORE_CURRENT_DICE':
+      console.log(action)
+      return {...state,
+        currentRollScore: state.currentRollScore + action.score
+      }
+
+    case 'ENABLE_ROLL_AGAIN':
+      console.log(action.playerID)
+      return {...state,
+        players: {
+          ...state.players,
+          [action.playerID]: {
+            ...state.players[action.playerID],
+            rollAgain: true
+          }
+        }
+      }
+
+    case 'HOLD_DICE':
+      console.log(action)
+      return {...state,
+        dice: action.dice
       }
 
     default: {

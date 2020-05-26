@@ -14,7 +14,7 @@ const setup = (isHuman = true) => {
 
 describe('<PlayerCard />', () => {
   it('renders a HumanPlayer if isHuman === true', () => {
-    const { enzymeWrapper } = setup();
+    const { enzymeWrapper } = setup(true);
     expect(enzymeWrapper.find(HumanPlayer)).toHaveLength(1);
   })
 
