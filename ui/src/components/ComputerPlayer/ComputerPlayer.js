@@ -35,7 +35,7 @@ export class ComputerPlayer extends Component {
   }
 
   determineMove = () => {
-    const { dice, score, currentRollScore, holdDice, playerId } = this.props;
+    const { dice, score, currentRollScore, holdDice, playerId, scoreCurrentDice, enableRollAgain } = this.props;
     const diceToHold = selectDiceToHold(dice);
     const scoreOfCurrentDice = getScoreOfDice(diceToHold);
     // if min score is not met, holdDiceAndRollAgain
@@ -69,7 +69,7 @@ const mapDispatchToProps = dispatch => {
   return {
     enableRollAgain: (playerID) => dispatch(enableRollAgain(playerID)),
     holdDice: (diceToHold, dice) => dispatch(holdDice(diceToHold, dice)),
-    scoreCurrentDice: (score) => dispatch(scoreCurrentDice(score))
+    scoreCurrentDice: (score) => dispatch(scoreCurrentDice(score)),
   }
 }
 

@@ -7,7 +7,6 @@ export const INITIAL_ROLL_ROLL_OFF = 'INITIAL_ROLL_ROLL_OFF';
 export const HOLD_DICE = 'HOLD_DICE';
 export const SCORE_CURRENT_DICE = 'SCORE_CURRENT_DICE';
 export const ENABLE_ROLL_AGAIN = 'ENABLE_ROLL_AGAIN';
-export const NEW_TYPE = 'NEW_TYPE';
 
 export const startNewGame = (numberOfPlayers) => {
     // create players
@@ -115,7 +114,6 @@ export const holdDice = (diceToHold, dice) => {
 }
 
 export const scoreCurrentDice = (score) => {
-  console.log(score)
   return {
     type: SCORE_CURRENT_DICE,
     score
@@ -123,7 +121,6 @@ export const scoreCurrentDice = (score) => {
 }
 
 export const enableRollAgain = (playerID) => {
-  console.log(playerID)
   return {
     type: ENABLE_ROLL_AGAIN,
     playerID
