@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { PlayerCard } from './PlayerCard.js';
 import { HumanPlayer } from '../HumanPlayer/HumanPlayer.js';
-import { ComputerPlayer } from '../ComputerPlayer/ComputerPlayer.js';
+import ComputerPlayer from '../ComputerPlayer/ComputerPlayer.js';
 
 const setup = (isHuman = true) => {
   const enzymeWrapper = shallow(<PlayerCard isHuman={isHuman} />)
