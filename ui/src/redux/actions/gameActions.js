@@ -49,15 +49,6 @@ const rollDice = (numDice = 1) => {
 
 export const preRoll = (playerId) => {
 
-  // if (playerId === "2" || playerId === "3") {
-  //   console.log('winner')
-  //   return {
-  //     type: PRE_ROLL,
-  //     playerId,
-  //     diceRoll: 6
-  //   }
-  // }
-
   const diceRoll = Math.floor((Math.random() * 6) + 1)
   console.log('dice roll = ' + diceRoll);
   return {
