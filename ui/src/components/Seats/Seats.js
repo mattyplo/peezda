@@ -20,6 +20,8 @@ class Seats extends Component {
             score={players[id].score}
             isHuman={players[id].isHuman}
             isTurn={isTurn}
+            preGameRollOff={players[id].preGameRollOff}
+            rollIsEnabled={players[id].rollIsEnabled}
           />
         )}
       )}

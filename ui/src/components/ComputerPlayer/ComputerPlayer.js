@@ -2,28 +2,37 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { selectDiceToHold } from '../../utility/computerStrategy';
 import { getScoreOfDice } from '../../utility/rules.js';
-import { holdDice, scoreCurrentDice, enableRollAgain } from '../../redux/actions/gameActions.js';
+import { holdDice, scoreCurrentDice, enablePlayerToRoll } from '../../redux/actions/gameActions.js';
 
 export class ComputerPlayer extends Component {
 
   componentDidMount() {
-    const { turn, preRoll } = this.props;
+    const { preRoll, preGameRollOff } = this.props;
     // if not anyones turn, then we are in pregame roll to determine order.
-    if (!turn) {
+    if (preGameRollOff) {
+      //console.log(preGameRollOff)
       preRoll();
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { isTurn, preRoll, roll, dice, currentRollScore } = this.props;
+    const { isTurn, preRoll, roll, dice, currentRollScore, rollIsEnabled } = this.props;
 
     // Enable another roll
-    if (this.props.rollAgain === true && prevProps.rollAgain !== true) {
+    //console.log(this.props.playerId + ' - preGameRollOff: ' + this.props.preGameRollOff  + ' prevProps.preGameRollOff: ' + prevProps.preGameRollOff);
+    if (this.props.preGameRollOff === true && prevProps.preGameRollOff !== true) {
+      //console.log(this.props.preGameRollOff)
       preRoll();
     }
 
     // It is now the players turn
     if (isTurn && !prevProps.isTurn) {
+      roll();
+    }
+
+    //console.log(this.props.playerId + ' - rollIsEnabled: ' + this.props.rollIsEnabled + ' prevProps.rollIsEnable: ' + prevProps.rollIsEnable);
+    // If the computer chose to keep rolling and their roll is enabled
+    if (rollIsEnabled && !prevProps.rollIsEnabled) {
       roll();
     }
 
@@ -35,7 +44,7 @@ export class ComputerPlayer extends Component {
   }
 
   determineMove = () => {
-    const { dice, score, currentRollScore, holdDice, playerId, scoreCurrentDice, enableRollAgain } = this.props;
+    const { dice, score, currentRollScore, holdDice, playerId, scoreCurrentDice, enablePlayerToRoll } = this.props;
     const diceToHold = selectDiceToHold(dice);
     const scoreOfCurrentDice = getScoreOfDice(diceToHold);
     // if min score is not met, holdDiceAndRollAgain
@@ -44,7 +53,7 @@ export class ComputerPlayer extends Component {
     || (score > 0 && scoreOfCurrentDice + currentRollScore < 350)) {
       holdDice(diceToHold, dice);
       scoreCurrentDice(scoreOfCurrentDice);
-      enableRollAgain(playerId);
+      enablePlayerToRoll(playerId);
     } else { // if min score is met, holdDiceAndEndTurn
       console.log(diceToHold);
       // endTurn()   -> NEED TO WRITE THIS FUNCTION
@@ -67,7 +76,7 @@ export class ComputerPlayer extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    enableRollAgain: (playerID) => dispatch(enableRollAgain(playerID)),
+    enablePlayerToRoll: (playerID) => dispatch(enablePlayerToRoll(playerID)),
     holdDice: (diceToHold, dice) => dispatch(holdDice(diceToHold, dice)),
     scoreCurrentDice: (score) => dispatch(scoreCurrentDice(score)),
   }
