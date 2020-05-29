@@ -8,14 +8,14 @@ describe('gameActions', () => {
         1: {
           isHuman: true,
           roll: null,
-          preGameRollOff: false,
+          preGameRollOff: true,
           rollIsEnabled: false,
           score: 0,
         },
         2: {
           isHuman: false,
           roll: null,
-          preGameRollOff: false,
+          preGameRollOff: true,
           rollIsEnabled: false,
           score: 0,
         },
@@ -96,7 +96,7 @@ describe('gameActions', () => {
       }
       const expectedAction = {
         type: gameActions.INITIAL_ROLL_ROLL_OFF,
-        players: {
+        updatedPlayers: {
           1: {
             isHuman: true,
             roll: null,
@@ -163,7 +163,7 @@ describe('gameActions', () => {
       }
       const expectedAction = {
         type: gameActions.INITIAL_ROLL_ROLL_OFF,
-        players: {
+        updatedPlayers: {
           1: {
             isHuman: true,
             roll: 0,

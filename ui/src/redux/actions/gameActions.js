@@ -59,7 +59,6 @@ export const preRoll = (playerId) => {
 }
 
 export const determineOrder = (players) => {
-  console.log('determine order')
   var highRoll = 0;
   var playersWithHighRoll = [];
   for (var playerId in players) {
@@ -85,7 +84,6 @@ export const determineOrder = (players) => {
     // if more then one player share the high roll, they roll again.
     // generate update player rolls, and preGameRollOff fields.
     var updatedPlayers = {}
-    console.log(players)
     for (var playerId in players) {
       updatedPlayers[playerId] = {};
       updatedPlayers[playerId].isHuman = players[playerId].isHuman;
@@ -105,24 +103,6 @@ export const determineOrder = (players) => {
       updatedPlayers
     }
   }
-
-
-  // for (var playerId in players) {
-  //
-  //   // for testing only, this first if
-  //   if (playerId === '1' || playerId === '2') {
-  //     console.log(playerId)
-  //     players[playerId].roll = null;
-  //     players[playerId].preGameRollOff = true;
-  //   } else {
-  //     players[playerId].roll = 0;
-  //   }
-  //
-  // }
-  // return {
-  //   type: INITIAL_ROLL_ROLL_OFF,
-  //   players
-  // }
 }
 
 export const changeTurn = (playerId) => {
