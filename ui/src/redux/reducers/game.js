@@ -63,7 +63,7 @@ const game = (state = initialState, action) => {
 
     case 'INITIAL_ROLL_ROLL_OFF':
       return {...state,
-        players: action.players
+        players: action.updatedPlayers
       }
 
     case 'SCORE_CURRENT_DICE':

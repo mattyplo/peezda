@@ -10,7 +10,7 @@ export class ComputerPlayer extends Component {
     const { preRoll, preGameRollOff } = this.props;
     // if not anyones turn, then we are in pregame roll to determine order.
     if (preGameRollOff) {
-      console.log(preGameRollOff)
+      //console.log(preGameRollOff)
       preRoll();
     }
   }
@@ -19,9 +19,9 @@ export class ComputerPlayer extends Component {
     const { isTurn, preRoll, roll, dice, currentRollScore, rollIsEnabled } = this.props;
 
     // Enable another roll
-    console.log(this.props.playerId + ' - preGameRollOff: ' + this.props.preGameRollOff  + ' prevProps.preGameRollOff: ' + prevProps.preGameRollOff);
+    //console.log(this.props.playerId + ' - preGameRollOff: ' + this.props.preGameRollOff  + ' prevProps.preGameRollOff: ' + prevProps.preGameRollOff);
     if (this.props.preGameRollOff === true && prevProps.preGameRollOff !== true) {
-      console.log(this.props.preGameRollOff)
+      //console.log(this.props.preGameRollOff)
       preRoll();
     }
 
@@ -30,7 +30,7 @@ export class ComputerPlayer extends Component {
       roll();
     }
 
-    console.log(this.props.playerId + ' - rollIsEnabled: ' + this.props.rollIsEnabled + ' prevProps.rollIsEnable: ' + prevProps.rollIsEnable);
+    //console.log(this.props.playerId + ' - rollIsEnabled: ' + this.props.rollIsEnabled + ' prevProps.rollIsEnable: ' + prevProps.rollIsEnable);
     // If the computer chose to keep rolling and their roll is enabled
     if (rollIsEnabled && !prevProps.rollIsEnabled) {
       roll();

@@ -28,7 +28,7 @@ export class PlayerCard extends Component {
 
   roll = () => {
     this.props.roll();
-    this.props.disallowPlayerToRoll();
+    this.props.disallowPlayerToRoll(this.props.playerId);
   }
 
   preRoll = () => {

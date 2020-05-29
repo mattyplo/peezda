@@ -48,6 +48,16 @@ const rollDice = (numDice = 1) => {
 }
 
 export const preRoll = (playerId) => {
+
+  // if (playerId === "2" || playerId === "3") {
+  //   console.log('winner')
+  //   return {
+  //     type: PRE_ROLL,
+  //     playerId,
+  //     diceRoll: 6
+  //   }
+  // }
+
   const diceRoll = Math.floor((Math.random() * 6) + 1)
   console.log('dice roll = ' + diceRoll);
   return {
@@ -58,6 +68,7 @@ export const preRoll = (playerId) => {
 }
 
 export const determineOrder = (players) => {
+  console.log('determine order')
   var highRoll = 0;
   var playersWithHighRoll = [];
   for (var playerId in players) {
@@ -82,19 +93,45 @@ export const determineOrder = (players) => {
   } else {
     // if more then one player share the high roll, they roll again.
     // generate update player rolls, and preGameRollOff fields.
+    var updatedPlayers = {}
+    console.log(players)
     for (var playerId in players) {
+      updatedPlayers[playerId] = {};
+      updatedPlayers[playerId].isHuman = players[playerId].isHuman;
+      updatedPlayers[playerId].score = players[playerId].score;
+      updatedPlayers[playerId].rollIsEnabled = players[playerId].rollIsEnabled;
+
       if (playersWithHighRoll.includes(playerId)) {
-        players[playerId].roll = null;
-        players[playerId].preGameRollOff = true;
+        updatedPlayers[playerId].roll = null;
+        updatedPlayers[playerId].preGameRollOff = true;
       } else {
-        players[playerId].roll = 0;
+        updatedPlayers[playerId].roll = 0;
+        updatedPlayers[playerId].preGameRollOff = false;
       }
     }
     return {
       type: INITIAL_ROLL_ROLL_OFF,
-      players
+      updatedPlayers
     }
   }
+
+
+  // for (var playerId in players) {
+  //
+  //   // for testing only, this first if
+  //   if (playerId === '1' || playerId === '2') {
+  //     console.log(playerId)
+  //     players[playerId].roll = null;
+  //     players[playerId].preGameRollOff = true;
+  //   } else {
+  //     players[playerId].roll = 0;
+  //   }
+  //
+  // }
+  // return {
+  //   type: INITIAL_ROLL_ROLL_OFF,
+  //   players
+  // }
 }
 
 export const changeTurn = (playerId) => {
