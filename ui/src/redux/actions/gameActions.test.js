@@ -8,13 +8,15 @@ describe('gameActions', () => {
         1: {
           isHuman: true,
           roll: null,
-          rollAgain: false,
+          preGameRollOff: false,
+          rollIsEnabled: false,
           score: 0,
         },
         2: {
           isHuman: false,
           roll: null,
-          rollAgain: false,
+          preGameRollOff: false,
+          rollIsEnabled: false,
           score: 0,
         },
       },
@@ -28,25 +30,29 @@ describe('gameActions', () => {
         1: {
           isHuman: true,
           roll: 6,
-          rollAgain: false,
+          preGameRollOff: false,
+          rollIsEnabled: false,
           score: 0
         },
         2: {
           isHuman: false,
           roll: 4,
-          rollAgain: false,
+          preGameRollOff: false,
+          rollIsEnabled: false,
           score: 0
         },
         3: {
           isHuman: false,
           roll: 4,
-          rollAgain: false,
+          preGameRollOff: false,
+          rollIsEnabled: false,
           score: 0
         },
         4: {
           isHuman: false,
           roll: 4,
-          rollAgain: false,
+          preGameRollOff: false,
+          rollIsEnabled: false,
           score: 0
         }
       }
@@ -62,25 +68,29 @@ describe('gameActions', () => {
         1: {
           isHuman: true,
           roll: 6,
-          rollAgain: false,
+          preGameRollOff: false,
+          rollIsEnabled: false,
           score: 0
         },
         2: {
           isHuman: false,
           roll: 6,
-          rollAgain: false,
+          preGameRollOff: false,
+          rollIsEnabled: false,
           score: 0
         },
         3: {
           isHuman: false,
           roll: 4,
-          rollAgain: false,
+          preGameRollOff: false,
+          rollIsEnabled: false,
           score: 0
         },
         4: {
           isHuman: false,
           roll: 4,
-          rollAgain: false,
+          preGameRollOff: false,
+          rollIsEnabled: false,
           score: 0
         }
       }
@@ -90,25 +100,29 @@ describe('gameActions', () => {
           1: {
             isHuman: true,
             roll: null,
-            rollAgain: true,
+            preGameRollOff: true,
+            rollIsEnabled: false,
             score: 0
           },
           2: {
             isHuman: false,
             roll: null,
-            rollAgain: true,
+            preGameRollOff: true,
+            rollIsEnabled: false,
             score: 0
           },
           3: {
             isHuman: false,
             roll: 0,
-            rollAgain: false,
+            preGameRollOff: false,
+            rollIsEnabled: false,
             score: 0
           },
           4: {
             isHuman: false,
             roll: 0,
-            rollAgain: false,
+            preGameRollOff: false,
+            rollIsEnabled: false,
             score: 0
           }
         }
@@ -121,25 +135,29 @@ describe('gameActions', () => {
         1: {
           isHuman: true,
           roll: 0,
-          rollAgain: false,
+          preGameRollOff: false,
+          rollIsEnabled: false,
           score: 0
         },
         2: {
           isHuman: false,
           roll: 6,
-          rollAgain: false,
+          preGameRollOff: false,
+          rollIsEnabled: false,
           score: 0
         },
         3: {
           isHuman: false,
           roll: 6,
-          rollAgain: false,
+          preGameRollOff: false,
+          rollIsEnabled: false,
           score: 0
         },
         4: {
           isHuman: false,
           roll: 0,
-          rollAgain: false,
+          preGameRollOff: false,
+          rollIsEnabled: false,
           score: 0
         }
       }
@@ -149,25 +167,29 @@ describe('gameActions', () => {
           1: {
             isHuman: true,
             roll: 0,
-            rollAgain: false,
+            preGameRollOff: false,
+            rollIsEnabled: false,
             score: 0
           },
           2: {
             isHuman: false,
             roll: null,
-            rollAgain: true,
+            preGameRollOff: true,
+            rollIsEnabled: false,
             score: 0
           },
           3: {
             isHuman: false,
             roll: null,
-            rollAgain: true,
+            preGameRollOff: true,
+            rollIsEnabled: false,
             score: 0
           },
           4: {
             isHuman: false,
             roll: 0,
-            rollAgain: false,
+            preGameRollOff: false,
+            rollIsEnabled: false,
             score: 0
           }
         }

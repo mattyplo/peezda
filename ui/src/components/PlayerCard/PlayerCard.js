@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import ComputerPlayer from '../ComputerPlayer/ComputerPlayer.js';
 import HumanPlayer from '../HumanPlayer/HumanPlayer.js';
-import { preRoll, roll } from '../../redux/actions/gameActions';
+import { preRoll, roll, disallowPlayerToRoll } from '../../redux/actions/gameActions';
 
 export class PlayerCard extends Component {
 
@@ -27,7 +27,8 @@ export class PlayerCard extends Component {
   }
 
   roll = () => {
-    this.props.roll()
+    this.props.roll();
+    this.props.disallowPlayerToRoll();
   }
 
   preRoll = () => {
@@ -41,17 +42,18 @@ export class PlayerCard extends Component {
   render() {
 
     const { rollEnabled } = this.state;
-    const { playerId, score, isHuman, rollAgain, isTurn, dice, currentRollScore } = this.props;
+    const { playerId, score, isHuman, preGameRollOff, isTurn, dice, currentRollScore, rollIsEnabled } = this.props;
     if (isHuman) {
       return (
         <HumanPlayer
           rollEnabled={rollEnabled}
+          rollIsEnabled={rollIsEnabled}
           playerId={playerId}
           score={score}
           enableRoll={this.enableRoll}
           roll={this.roll}
           preRoll={this.preRoll}
-          rollAgain={rollAgain}
+          preGameRollOff={preGameRollOff}
           isTurn={isTurn}
         />
       )
@@ -61,12 +63,13 @@ export class PlayerCard extends Component {
           currentRollScore={currentRollScore}
           dice={dice}
           rollEnabled={rollEnabled}
+          rollIsEnabled={rollIsEnabled}
           playerId={playerId}
           score={score}
           enableRoll={this.enableRoll}
           roll={this.roll}
           preRoll={this.preRoll}
-          rollAgain={rollAgain}
+          preGameRollOff={preGameRollOff}
           isTurn={isTurn}
         />
       )
@@ -76,14 +79,14 @@ export class PlayerCard extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    preRoll: (playerId) => dispatch(preRoll(playerId)),
+    disallowPlayerToRoll: (playerID) => dispatch(disallowPlayerToRoll(playerID)),
+    preRoll: (playerID) => dispatch(preRoll(playerID)),
     roll: () => dispatch(roll())
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
-    rollAgain: state.game.players[ownProps.playerId].rollAgain,
     currentRollScore: state.game.currentRollScore
   }
 }

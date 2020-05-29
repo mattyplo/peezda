@@ -46,7 +46,7 @@ const game = (state = initialState, action) => {
           [action.playerId]: {
             ...state.players[action.playerId],
             roll: action.diceRoll,
-            rollAgain: false
+            preGameRollOff: false
           }
         }
       }
@@ -67,25 +67,33 @@ const game = (state = initialState, action) => {
       }
 
     case 'SCORE_CURRENT_DICE':
-      console.log(action)
       return {...state,
         currentRollScore: state.currentRollScore + action.score
       }
 
-    case 'ENABLE_ROLL_AGAIN':
-      console.log(action.playerID)
+    case 'ENABLE_PLAYER_TO_ROLL':
       return {...state,
         players: {
           ...state.players,
           [action.playerID]: {
             ...state.players[action.playerID],
-            rollAgain: true
+            rollIsEnabled: true
+          }
+        }
+      }
+
+    case 'DISALLOW_PLAYER_TO_ROLL':
+      return {...state,
+        players: {
+          ...state.players,
+          [action.playerID]: {
+            ...state.players[action.playerID],
+            rollIsEnabled: false
           }
         }
       }
 
     case 'HOLD_DICE':
-      console.log(action)
       return {...state,
         dice: action.dice
       }

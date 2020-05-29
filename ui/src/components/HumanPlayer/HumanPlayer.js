@@ -5,7 +5,8 @@ export class HumanPlayer extends Component {
   componentDidUpdate(prevProps) {
     const { enableRoll, isTurn } = this.props;
     // Enable another roll
-    if (this.props.rollAgain === true && prevProps.rollAgain !== true) {
+    console.log('human - preGameRollOff: ' + this.props.preGameRollOff  + ' prevProps.preGameRollOff: ' + prevProps.preGameRollOff);
+    if (this.props.preGameRollOff === true && prevProps.preGameRollOff !== true) {
       enableRoll();
     }
 

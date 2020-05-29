@@ -6,7 +6,8 @@ export const CHANGE_TURN = 'CHANGE_TURN';
 export const INITIAL_ROLL_ROLL_OFF = 'INITIAL_ROLL_ROLL_OFF';
 export const HOLD_DICE = 'HOLD_DICE';
 export const SCORE_CURRENT_DICE = 'SCORE_CURRENT_DICE';
-export const ENABLE_ROLL_AGAIN = 'ENABLE_ROLL_AGAIN';
+export const ENABLE_PLAYER_TO_ROLL = 'ENABLE_PLAYER_TO_ROLL';
+export const DISALLOW_PLAYER_TO_ROLL = 'DISALLOW_PLAYER_TO_ROLL';
 
 export const startNewGame = (numberOfPlayers) => {
     // create players
@@ -80,11 +81,11 @@ export const determineOrder = (players) => {
     }
   } else {
     // if more then one player share the high roll, they roll again.
-    // generate update player rolls, and rollAgain fields.
+    // generate update player rolls, and preGameRollOff fields.
     for (var playerId in players) {
       if (playersWithHighRoll.includes(playerId)) {
         players[playerId].roll = null;
-        players[playerId].rollAgain = true;
+        players[playerId].preGameRollOff = true;
       } else {
         players[playerId].roll = 0;
       }
@@ -120,9 +121,16 @@ export const scoreCurrentDice = (score) => {
   }
 }
 
-export const enableRollAgain = (playerID) => {
+export const disallowPlayerToRoll = (playerID) => {
   return {
-    type: ENABLE_ROLL_AGAIN,
+    type: DISALLOW_PLAYER_TO_ROLL,
+    playerID
+  }
+}
+
+export const enablePlayerToRoll = (playerID) => {
+  return {
+    type: ENABLE_PLAYER_TO_ROLL,
     playerID
   }
 }
@@ -139,7 +147,8 @@ const createPlayers = (numberOfPlayers) => {
       isHuman,
       score: 0,
       roll: null,
-      rollAgain: false
+      preGameRollOff: true,
+      rollIsEnabled: false
     }
   }
   return players;
