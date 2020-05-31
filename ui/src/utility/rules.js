@@ -18,6 +18,16 @@ export const isPeezda = (dice) => {
   return true;
 }
 
+export const getDiceNotHeld = (dice) => {
+  var diceNotHeld = {};
+  for (var die in dice) {
+    if (dice[die].isHeld === false) {
+      diceNotHeld[die] = dice[die];
+    }
+  }
+  return diceNotHeld;
+}
+
 export const getNumOfAKind = (dice) => {
   var numOfAKind = [0, 0, 0, 0, 0, 0];
   for (var die in dice ) {

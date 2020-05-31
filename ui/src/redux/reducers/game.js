@@ -58,7 +58,14 @@ const game = (state = initialState, action) => {
 
     case 'CHANGE_TURN':
       return {...state,
-        turn: action.playerId
+        turn: action.playerId,
+        players: {
+          ...state.players,
+          [action.playerId]: {
+            ...state.players[action.playerId],
+            rollIsEnabled: true
+          }
+        }
       }
 
     case 'INITIAL_ROLL_ROLL_OFF':

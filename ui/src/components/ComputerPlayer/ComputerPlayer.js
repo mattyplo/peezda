@@ -26,9 +26,9 @@ export class ComputerPlayer extends Component {
     }
 
     // It is now the players turn
-    if (isTurn && !prevProps.isTurn) {
-      roll();
-    }
+    // if (isTurn && !prevProps.isTurn) {
+    //   roll();
+    // }
 
     //console.log(this.props.playerId + ' - rollIsEnabled: ' + this.props.rollIsEnabled + ' prevProps.rollIsEnable: ' + prevProps.rollIsEnable);
     // If the computer chose to keep rolling and their roll is enabled
@@ -55,7 +55,8 @@ export class ComputerPlayer extends Component {
       scoreCurrentDice(scoreOfCurrentDice);
       enablePlayerToRoll(playerId);
     } else { // if min score is met, holdDiceAndEndTurn
-      console.log(diceToHold);
+      console.log('end turn');
+      scoreCurrentDice(scoreOfCurrentDice);
       // endTurn()   -> NEED TO WRITE THIS FUNCTION
     }
   }

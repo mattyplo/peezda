@@ -197,4 +197,46 @@ describe('gameActions', () => {
       expect(gameActions.determineOrder(mockPlayers)).toEqual(expectedAction);
     })
   })
+
+  describe('Can End Turn', () => {
+    it('has score, currentRollScore meets min score and one non scoring dice should return CAN_END_TURN,', () => {
+      const player = { score: 1000 }
+      const dice = { 1: { isHeld: true },
+                     2: { isHeld: true },
+                     3: { isHeld: true },
+                     4: { isHeld: true },
+                     5: { isHeld: true },
+                     6: { isHeld: false,
+                          value: 6
+                     }
+                   }
+      const currentRollScore = 350;
+      const expectedAction = {
+        type: gameActions.CAN_END_TURN
+      }
+      expect(gameActions.canEndTurn(player, dice, currentRollScore)).toEqual(expectedAction);
+    })
+
+    it('has no score, currentRollScore is 0 and scoring dice = 300 should return CANNOT_END_TURN', () => {
+      const player = { score: 0 }
+      const dice = { 1: { isHeld: false,
+                          value: 2 },
+                     2: { isHeld: false,
+                          value: 3 },
+                     3: { isHeld: false,
+                          value: 3 },
+                     4: { isHeld: false,
+                          value: 3 },
+                     5: { isHeld: false,
+                          value: 6 },
+                     6: { isHeld: false,
+                          value: 6 }
+                        }
+      const currentRollScore = 0;
+      const expectedAction = {
+        type: gameActions.CANNOT_END_TURN
+      }
+      expect(gameActions.canEndTurn(player, dice, currentRollScore)).toEqual(expectedAction);
+    })
+  })
 })
