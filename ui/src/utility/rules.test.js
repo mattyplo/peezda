@@ -1,4 +1,4 @@
-import { isPeezda, getNumOfAKind, getScoreOfDice } from './rules.js';
+import { isPeezda, getNumOfAKind, getScoreOfDice, getDiceNotHeld } from './rules.js';
 
 describe('rules - isPeezda', () => {
 
@@ -82,5 +82,46 @@ describe('rules - getScoreOfDice', () => {
   test('1 one, 1 two, 1 three, 1 four, 1 five, 1 six should return 150', () => {
     const dice = createDice(1, 2, 3, 4, 5, 6);
     expect(getScoreOfDice(dice)).toEqual(150);
+  })
+
+  describe('getDiceNotHeld', () => {
+    // Will create a set of dice that holds a isHeld value
+    // Takes in six boolean values as arguments.
+    var createDice = (die1IsHeld, die2IsHeld, die3IsHeld, die4IsHeld, die5IsHeld, die6IsHeld) => {
+      const dice = { 1: { isHeld: die1IsHeld },
+                     2: { isHeld: die2IsHeld },
+                     3: { isHeld: die3IsHeld },
+                     4: { isHeld: die4IsHeld },
+                     5: { isHeld: die5IsHeld },
+                     6: { isHeld: die6IsHeld }
+                   }
+      return dice;
+    }
+
+    test('Dice 1 - 6 isHeld, should return no dice', () => {
+      const dice = createDice(true, true, true, true, true, true);
+      const expectedDice = {};
+      expect(getDiceNotHeld(dice)).toEqual(expectedDice);
+    })
+
+    test('Dice 1, 3, 4 is held, should return just dice 2, 5, 6', () => {
+      const dice = createDice(true, false, true, true, false, false);
+      const expectedDice = {2: { isHeld: false },
+                     5: { isHeld: false },
+                     6: { isHeld: false }
+                   }
+      expect(getDiceNotHeld(dice)).toEqual(expectedDice);
+    })
+
+    test('Dice 6 is held, should return dice 1, 2, 3, 4, 5', () => {
+      const dice = createDice(false, false, false, false, false, true);
+      const expectedDice = {1: { isHeld: false },
+                      2: { isHeld: false },
+                      3: { isHeld: false },
+                      4: { isHeld: false },
+                      5: { isHeld: false }
+                    }
+      expect(getDiceNotHeld(dice)).toEqual(expectedDice);
+    })
   })
 })

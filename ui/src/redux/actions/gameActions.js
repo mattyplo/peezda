@@ -1,3 +1,5 @@
+import { getDiceNotHeld, getNumOfAKind, getScoreOfDice } from '../../utility/rules.js';
+
 export const START_NEW_GAME = 'START_NEW_GAME';
 export const ADD_PLAYERS = 'ADD_PLAYERS';
 export const PRE_ROLL = 'PRE_ROLL';
@@ -8,6 +10,8 @@ export const HOLD_DICE = 'HOLD_DICE';
 export const SCORE_CURRENT_DICE = 'SCORE_CURRENT_DICE';
 export const ENABLE_PLAYER_TO_ROLL = 'ENABLE_PLAYER_TO_ROLL';
 export const DISALLOW_PLAYER_TO_ROLL = 'DISALLOW_PLAYER_TO_ROLL';
+export const CAN_END_TURN = 'CAN_END_TURN';
+export const CANNOT_END_TURN = 'CANNOT_END_TURN';
 
 export const startNewGame = (numberOfPlayers) => {
     // create players
@@ -140,6 +144,36 @@ export const enablePlayerToRoll = (playerID) => {
   return {
     type: ENABLE_PLAYER_TO_ROLL,
     playerID
+  }
+}
+
+export const canEndTurn = (player, dice, currentRollScore) => {
+  // get dice not held
+  const diceNotHeld = getDiceNotHeld(dice);
+  // get numOfAKind
+  const numOfAKind = getNumOfAKind(diceNotHeld);
+  // calculate score of dice not held
+  const scoreOfDiceNotHeld = getScoreOfDice(diceNotHeld);
+  // dieNotScored = is there a dice not scored of all dice?
+  var dieNotScored = false;
+  for (var die in diceNotHeld) {
+    if (diceNotHeld[die].value !== 1 && diceNotHeld[die].value !== 5 &&
+        numOfAKind[diceNotHeld[die].value - 1] < 3) {
+          dieNotScored = true;
+        }
+  }
+  const totalRollScore = currentRollScore + scoreOfDiceNotHeld;
+
+  // The play reached the minimum, and has a none scoring dice, return true.
+  if (((player.score === 0 && totalRollScore >= 500) ||
+      (player.score !== 0 && totalRollScore >= 350)) &&
+      dieNotScored) {
+    return {
+      type: CAN_END_TURN
+    }
+  }
+  return {
+    type: CANNOT_END_TURN
   }
 }
 

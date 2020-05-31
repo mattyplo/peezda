@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { changeTurn, determineOrder } from '../../redux/actions/gameActions';
+import { canEndTurn, changeTurn, determineOrder } from '../../redux/actions/gameActions';
 import { isPeezda } from '../../utility/rules.js';
 import Seats from '../Seats/Seats.js';
 import Table from '../Table/Table.js';
@@ -19,9 +19,8 @@ class Game extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { turn, players, determineOrder, dice } = this.props;
+    const { turn, players, determineOrder, dice, currentRollScore } = this.props;
     // if turn is null, we need to determine who rolls first
-    console.log(players)
     if (turn === null && prevProps.players !== players) {
       // check if all players have rolled.
         if (this.allPlayersRolled()) {
@@ -38,6 +37,9 @@ class Game extends Component {
         this.setState({
           advanceTurnEnabled: true
         })
+      } else {
+        console.log('check')
+        canEndTurn(players[turn], dice, currentRollScore);
       }
       // if not peezda, allow user to pick dice to hold.
     }
@@ -61,7 +63,6 @@ class Game extends Component {
     const { players, turn, dice } = this.props;
     const { advanceTurnEnabled } = this.state;
 
-    console.log(players)
     return (
       <div id='game'>
         <h1>Game!</h1>
@@ -83,6 +84,7 @@ class Game extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
+    canEndTurn: (player, dice, currentRollScore) => dispatch(canEndTurn(player, dice, currentRollScore)),
     changeTurn: (playerId) => dispatch(changeTurn(playerId)),
     determineOrder: (players) => dispatch(determineOrder(players))
   }
@@ -91,7 +93,6 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = (state) => {
 
   const { players, turn, dice } = state.game
-  console.log(players)
 
   return {
     players,
