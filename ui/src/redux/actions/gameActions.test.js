@@ -198,6 +198,32 @@ describe('gameActions', () => {
     })
   })
 
+  describe('rollAgain()', () => {
+    it('returns all newly rolled dice not held when dice in argument are all held', () => {
+      const preDice = { 1: { isHeld: true,
+                          value: 2 },
+                     2: { isHeld: true,
+                          value: 3 },
+                     3: { isHeld: true,
+                          value: 3 },
+                     4: { isHeld: true,
+                          value: 3 },
+                     5: { isHeld: true,
+                          value: 6 },
+                     6: { isHeld: true,
+                          value: 6 }
+                        }
+      // expect(gameActions.rollAgain(preDice)).toHaveProperty('dice.1.isHeld', false, 'dice.2.isHeld')
+      expect(gameActions.rollAgain(preDice)).toMatchObject({ dice: { 1: { isHeld: false },
+                                                                 2: { isHeld: false },
+                                                                 3: { isHeld: false },
+                                                                 4: { isHeld: false },
+                                                                 5: { isHeld: false },
+                                                                 6: { isHeld: false }
+                                                               }})
+    })
+  })
+
   describe('Can End Turn', () => {
     it('has score, currentRollScore meets min score and one non scoring dice should return CAN_END_TURN,', () => {
       const player = { score: 1000 }
