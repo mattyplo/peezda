@@ -24,6 +24,46 @@ export const startNewGame = (numberOfPlayers) => {
 
 }
 
+export const rollAgain = (dice) => {
+  var newDice = {};
+  var diceRoll = [];
+  const diceNotHeld = getDiceNotHeld(dice);
+  const numDiceNotHeld = Object.keys(diceNotHeld).length
+  // if all Die are held roll all dice
+  if ( numDiceNotHeld === 0) {
+    diceRoll = rollDice(6);
+    for (var die in diceRoll) {
+      // add one to the identifier of the dice object so dice 1 is one and not 0 and so on.
+      var index = parseInt(die) + 1
+      newDice[index] = {
+                      value: diceRoll[die],
+                      isHeld: false
+                    };
+    }
+    return {
+      type: ROLL_DICE,
+      dice: newDice
+    }
+  } else { // else roll dice not held
+    const diceRoll = rollDice(numDiceNotHeld)
+    var diceRollIndex = 0;
+    for (var die in dice) {
+      if (dice[die].isHeld) {
+        newDice[die].isHeld = true;
+        newDice[die].value = dice[die].value;
+      } else { // The dice was not being held
+        newDice[die].isHeld = false;
+        newDice[die].value = diceRoll[diceRollIndex];
+        diceRollIndex ++;
+      }
+    }
+    return {
+      type: ROLL_DICE,
+      dice: newDice
+    }
+  }
+}
+
 export const roll = () => {
   const diceRoll = rollDice(6);
   const dice = {}

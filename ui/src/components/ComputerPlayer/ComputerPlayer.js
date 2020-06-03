@@ -26,15 +26,14 @@ export class ComputerPlayer extends Component {
     }
 
     // It is now the players turn
-    // if (isTurn && !prevProps.isTurn) {
-    //   roll();
-    // }
-
-    //console.log(this.props.playerId + ' - rollIsEnabled: ' + this.props.rollIsEnabled + ' prevProps.rollIsEnable: ' + prevProps.rollIsEnable);
-    // If the computer chose to keep rolling and their roll is enabled
-    if (rollIsEnabled && !prevProps.rollIsEnabled) {
+    if (isTurn && !prevProps.isTurn) {
       roll();
+      // If the computer chose to keep rolling and their roll is enabled
+    } else if (isTurn && rollIsEnabled && !prevProps.rollIsEnabled) {
+      // rollAgain(dice);
     }
+
+
 
     // if the computer roled the dice, evaluate their next move
     if (isTurn && prevProps.isTurn && dice !== prevProps.dice) {
@@ -44,6 +43,7 @@ export class ComputerPlayer extends Component {
   }
 
   determineMove = () => {
+    setTimeout(() => {}, 1000);
     const { dice, score, currentRollScore, holdDice, playerId, scoreCurrentDice, enablePlayerToRoll } = this.props;
     const diceToHold = selectDiceToHold(dice);
     const scoreOfCurrentDice = getScoreOfDice(diceToHold);
