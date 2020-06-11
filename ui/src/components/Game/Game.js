@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { canEndTurn, changeTurn, determineOrder } from '../../redux/actions/gameActions';
-import { isPeezda } from '../../utility/rules.js';
+import { calculateNextPlayersTurn, isPeezda } from '../../utility/rules.js';
 import Seats from '../Seats/Seats.js';
 import Table from '../Table/Table.js';
 import './Game.css'
@@ -15,6 +15,7 @@ class Game extends Component {
       advanceTurnEnabled: false
     }
 
+    this.turnOverToNextPlayer = this.turnOverToNextPlayer.bind(this);
     this.allPlayersRolled = this.allPlayersRolled.bind(this);
   }
 
@@ -39,14 +40,25 @@ class Game extends Component {
       const peezda = isPeezda(dice);
       // if peezda, enable AdvanceTurn
       if (peezda) {
-        this.setState({
-          advanceTurnEnabled: true
-        })
+        // turn is over, end turn.
+        console.log('peezda')
+        this.turnOverToNextPlayer()
+        // this.setState({
+        //   advanceTurnEnabled: true
+        // })
       } else {
+        console.log("component")
         canEndTurn(players[turn], dice, currentRollScore);
       }
       // if not peezda, allow user to pick dice to hold.
     }
+  }
+
+  turnOverToNextPlayer = () => {
+    const { changeTurn, turn, players } = this.props;
+    const numPlayers = Object.keys(players).length;
+    const nextPlayersTurn = calculateNextPlayersTurn(turn, numPlayers);
+    changeTurn(nextPlayersTurn);
   }
 
   allPlayersRolled = () => {

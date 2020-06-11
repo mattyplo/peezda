@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { selectDiceToHold } from '../../utility/computerStrategy';
 import { getScoreOfDice } from '../../utility/rules.js';
-import { holdDice, scoreCurrentDice, enablePlayerToRoll } from '../../redux/actions/gameActions.js';
+import { holdDice,
+         rollAgain,
+         scoreCurrentDice,
+         enablePlayerToRoll,
+         disallowPlayerToRoll } from '../../redux/actions/gameActions.js';
 
 export class ComputerPlayer extends Component {
 
@@ -16,7 +20,7 @@ export class ComputerPlayer extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { isTurn, preRoll, roll, dice, currentRollScore, rollIsEnabled } = this.props;
+    const { isTurn, preRoll, roll, dice, canEndTurn, rollIsEnabled } = this.props;
 
     // Enable another roll
     //console.log(this.props.playerId + ' - preGameRollOff: ' + this.props.preGameRollOff  + ' prevProps.preGameRollOff: ' + prevProps.preGameRollOff);
@@ -27,13 +31,13 @@ export class ComputerPlayer extends Component {
 
     // It is now the players turn
     if (isTurn && !prevProps.isTurn) {
+      console.log("player: " + this.props.playerID + " -> Initial Roll")
       roll();
       // If the computer chose to keep rolling and their roll is enabled
-    } else if (isTurn && rollIsEnabled && !prevProps.rollIsEnabled) {
-      // rollAgain(dice);
+    } else if (!canEndTurn && rollIsEnabled) {
+      this.props.rollAgain(dice);
+      this.props.disallowPlayerToRoll(this.props.playerId);
     }
-
-
 
     // if the computer roled the dice, evaluate their next move
     if (isTurn && prevProps.isTurn && dice !== prevProps.dice) {
@@ -77,8 +81,10 @@ export class ComputerPlayer extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
+    disallowPlayerToRoll: (playerID) => dispatch(disallowPlayerToRoll(playerID)),
     enablePlayerToRoll: (playerID) => dispatch(enablePlayerToRoll(playerID)),
     holdDice: (diceToHold, dice) => dispatch(holdDice(diceToHold, dice)),
+    rollAgain: (dice) => dispatch(rollAgain(dice)),
     scoreCurrentDice: (score) => dispatch(scoreCurrentDice(score)),
   }
 }

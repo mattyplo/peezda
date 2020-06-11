@@ -2,8 +2,11 @@ export const isPeezda = (dice) => {
   // if there is not at least one scoring dice, Peezda, return true.
   var dieCounts = [0, 0, 0, 0, 0, 0];
   for ( var die in dice ) {
-    // increment the dieCounts by the value of each dice thrown.
-    dieCounts[dice[die].value - 1] ++;
+    // only dice not being held are considered.
+    if (!dice[die].isHeld) {
+      // increment the dieCounts by the value of each dice thrown.
+      dieCounts[dice[die].value - 1] ++;
+    }
   }
 
   // return false

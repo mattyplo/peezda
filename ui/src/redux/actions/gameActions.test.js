@@ -213,7 +213,6 @@ describe('gameActions', () => {
                      6: { isHeld: true,
                           value: 6 }
                         }
-      // expect(gameActions.rollAgain(preDice)).toHaveProperty('dice.1.isHeld', false, 'dice.2.isHeld')
       expect(gameActions.rollAgain(preDice)).toMatchObject({ dice: { 1: { isHeld: false },
                                                                  2: { isHeld: false },
                                                                  3: { isHeld: false },

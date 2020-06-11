@@ -42,10 +42,20 @@ export class PlayerCard extends Component {
   render() {
 
     const { rollEnabled } = this.state;
-    const { playerId, score, isHuman, preGameRollOff, isTurn, dice, currentRollScore, rollIsEnabled } = this.props;
+    const { playerId,
+            score,
+            isHuman,
+            preGameRollOff,
+            isTurn,
+            dice,
+            currentRollScore,
+            rollIsEnabled,
+            canEndTurn} = this.props;
+            
     if (isHuman) {
       return (
         <HumanPlayer
+          canEndTurn={canEndTurn}
           rollEnabled={rollEnabled}
           rollIsEnabled={rollIsEnabled}
           playerId={playerId}
@@ -60,6 +70,7 @@ export class PlayerCard extends Component {
     } else {
       return (
         <ComputerPlayer
+          canEndTurn={canEndTurn}
           currentRollScore={currentRollScore}
           dice={dice}
           rollEnabled={rollEnabled}
@@ -87,6 +98,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = (state) => {
   return {
+    canEndTurn: state.game.canEndTurn,
     currentRollScore: state.game.currentRollScore
   }
 }

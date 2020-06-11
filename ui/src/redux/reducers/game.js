@@ -113,7 +113,7 @@ const game = (state = initialState, action) => {
 
     case 'HOLD_DICE':
       return {...state,
-        dice: action.dice
+        dice: action.newDice
       }
 
     default: {
