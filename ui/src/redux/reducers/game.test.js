@@ -5,6 +5,7 @@ describe('game reducer', () => {
   it('should return the intial state', () => {
     expect(reducer(undefined, {})).toEqual(
       {
+        canEndTurn: false,
         currentRollScore: 0,
         gameInSession: false,
         players: {},

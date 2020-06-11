@@ -19,7 +19,12 @@ class Game extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { turn, players, determineOrder, dice, currentRollScore } = this.props;
+    const { turn,
+            players,
+            determineOrder,
+            dice,
+            currentRollScore,
+            canEndTurn } = this.props;
     // if turn is null, we need to determine who rolls first
     if (turn === null && prevProps.players !== players) {
       // check if all players have rolled.
@@ -38,7 +43,6 @@ class Game extends Component {
           advanceTurnEnabled: true
         })
       } else {
-        console.log('check')
         canEndTurn(players[turn], dice, currentRollScore);
       }
       // if not peezda, allow user to pick dice to hold.
