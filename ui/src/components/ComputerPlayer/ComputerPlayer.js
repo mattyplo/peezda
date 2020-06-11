@@ -31,7 +31,6 @@ export class ComputerPlayer extends Component {
 
     // It is now the players turn
     if (isTurn && !prevProps.isTurn) {
-      console.log("player: " + this.props.playerID + " -> Initial Roll")
       roll();
       // If the computer chose to keep rolling and their roll is enabled
     } else if (!canEndTurn && rollIsEnabled) {

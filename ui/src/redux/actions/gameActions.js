@@ -71,9 +71,7 @@ export const rollAgain = (dice) => {
 
 export const roll = () => {
   const diceRoll = rollDice(6);
-  console.log(diceRoll)
   const dice = {}
-  console.log(dice)
   for (var die in diceRoll) {
     // add one to the identifier of the dice object so dice 1 is one and not 0 and so on.
     var index = parseInt(die) + 1
@@ -81,10 +79,8 @@ export const roll = () => {
                     value: diceRoll[die],
                     isHeld: false
                   };
-    console.log(dice)
   }
 
-  console.log(dice)
   return {
     type: ROLL_DICE,
     dice
