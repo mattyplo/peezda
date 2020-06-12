@@ -6,6 +6,7 @@ describe('game reducer', () => {
     expect(reducer(undefined, {})).toEqual(
       {
         canEndTurn: false,
+        checkedForPeezda: false,
         currentRollScore: 0,
         gameInSession: false,
         players: {},

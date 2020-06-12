@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Die from '../Die/Die.js';
+import PlayByPlay from '../PlayByPlay/PlayByPlay.js';
 import './Table.css';
 import { changeTurn } from '../../redux/actions/gameActions.js';
 import { calculateNextPlayersTurn } from '../../utility/rules.js';
@@ -50,15 +51,18 @@ class Table extends Component {
       <div id='table' >
         <button onClick={this.turnOverToNextPlayer} disabled={advanceTurnEnabled ? false : true} > Advance Turn </button>
         <p> table </p>
-        {Object.keys(dice).map((die) =>
-          <Die
-            value={dice[die].value}
-            holdDie={this.toggleHoldDie}
-            key={die}
-            diceId={die}
-            markedHeld={dice[die].isHeld ? true : diceMarkedToHold[die]}
-          />
-        )}
+        <div id='dice' >
+          {Object.keys(dice).map((die) =>
+            <Die
+              value={dice[die].value}
+              holdDie={this.toggleHoldDie}
+              key={die}
+              diceId={die}
+              markedHeld={dice[die].isHeld ? true : diceMarkedToHold[die]}
+            />
+          )}
+        </div>
+        <PlayByPlay />
       </div>
     )
   }

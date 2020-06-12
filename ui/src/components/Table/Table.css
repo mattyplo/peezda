@@ -3,3 +3,14 @@
   float: right;
   width: 75%;
 }
+
+#dice {
+  float: left;
+  width: 50%;
+}
+
+#playByPlay {
+  float: right;
+  background-color: white;
+  width: 50%;
+}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { canEndTurn, changeTurn, determineOrder } from '../../redux/actions/gameActions';
+import { canEndTurn, changeTurn, determineOrder, markCheckedForPeezda } from '../../redux/actions/gameActions';
 import { calculateNextPlayersTurn, isPeezda } from '../../utility/rules.js';
 import Seats from '../Seats/Seats.js';
 import Table from '../Table/Table.js';
@@ -20,7 +20,8 @@ class Game extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { turn,
+    const { checkedForPeezda,
+            turn,
             players,
             determineOrder,
             dice,
@@ -36,9 +37,11 @@ class Game extends Component {
     }
 
     // Check for Peezda after each diceRoll.
-    if (dice !== prevProps.dice) {
+    if (turn && !checkedForPeezda) {
+      this.props.markCheckedForPeezda();
       const peezda = isPeezda(dice);
       // if peezda, enable AdvanceTurn
+      console.log(peezda);
       if (peezda) {
         // turn is over, end turn.
         console.log('peezda')
@@ -47,7 +50,6 @@ class Game extends Component {
         //   advanceTurnEnabled: true
         // })
       } else {
-        console.log("component")
         canEndTurn(players[turn], dice, currentRollScore);
       }
       // if not peezda, allow user to pick dice to hold.
@@ -102,15 +104,18 @@ const mapDispatchToProps = dispatch => {
   return {
     canEndTurn: (player, dice, currentRollScore) => dispatch(canEndTurn(player, dice, currentRollScore)),
     changeTurn: (playerId) => dispatch(changeTurn(playerId)),
-    determineOrder: (players) => dispatch(determineOrder(players))
+    determineOrder: (players) => dispatch(determineOrder(players)),
+    markCheckedForPeezda: () => dispatch(markCheckedForPeezda())
   }
 }
 
 const mapStateToProps = (state) => {
 
-  const { players, turn, dice } = state.game
+  const { checkedForPeezda, currentRollScore, players, turn, dice } = state.game;
 
   return {
+    checkedForPeezda,
+    currentRollScore,
     players,
     turn,
     dice
