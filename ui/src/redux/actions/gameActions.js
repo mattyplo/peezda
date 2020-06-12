@@ -30,6 +30,7 @@ export const rollAgain = (dice) => {
   const diceNotHeld = getDiceNotHeld(dice);
   const numDiceNotHeld = Object.keys(diceNotHeld).length
   // if all Die are held roll all dice
+  console.log(numDiceNotHeld)
   if ( numDiceNotHeld === 0) {
     diceRoll = rollDice(6);
     for (var die in diceRoll) {
@@ -49,11 +50,15 @@ export const rollAgain = (dice) => {
     var diceRollIndex = 0;
     for (var die in dice) {
       if (dice[die].isHeld) {
-        newDice[die].isHeld = true;
-        newDice[die].value = dice[die].value;
+        newDice[die] = {
+          isHeld: true,
+          value: dice[die].value
+        }
       } else { // The dice was not being held
-        newDice[die].isHeld = false;
-        newDice[die].value = diceRoll[diceRollIndex];
+        newDice[die] = {
+          isHeld: false,
+          value: diceRoll[diceRollIndex]
+        }
         diceRollIndex ++;
       }
     }
@@ -157,12 +162,27 @@ export const changeTurn = (playerId) => {
 }
 
 export const holdDice = (diceToHold, dice) => {
-  for (var die in diceToHold) {
-    dice[die].isHeld = true;
+  var newDice = {};
+  console.log(diceToHold)
+  for (var die in dice) {
+    if (diceToHold[die]) {
+      newDice[die] = {
+        value: diceToHold[die].value,
+        isHeld: true
+      };
+    } else {
+      newDice[die] = {
+        value: dice[die].value,
+        isHeld: dice[die].isHeld
+      };
+    }
   }
+  // for (var die in diceToHold) {
+  //   dice[die].isHeld = true;
+  // }
   return {
     type: HOLD_DICE,
-    dice
+    newDice
   }
 }
 

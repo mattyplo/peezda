@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { canEndTurn, changeTurn, determineOrder } from '../../redux/actions/gameActions';
-import { isPeezda } from '../../utility/rules.js';
+import { calculateNextPlayersTurn, isPeezda } from '../../utility/rules.js';
 import Seats from '../Seats/Seats.js';
 import Table from '../Table/Table.js';
 import './Game.css'
@@ -15,11 +15,17 @@ class Game extends Component {
       advanceTurnEnabled: false
     }
 
+    this.turnOverToNextPlayer = this.turnOverToNextPlayer.bind(this);
     this.allPlayersRolled = this.allPlayersRolled.bind(this);
   }
 
   componentDidUpdate(prevProps) {
-    const { turn, players, determineOrder, dice, currentRollScore } = this.props;
+    const { turn,
+            players,
+            determineOrder,
+            dice,
+            currentRollScore,
+            canEndTurn } = this.props;
     // if turn is null, we need to determine who rolls first
     if (turn === null && prevProps.players !== players) {
       // check if all players have rolled.
@@ -34,15 +40,25 @@ class Game extends Component {
       const peezda = isPeezda(dice);
       // if peezda, enable AdvanceTurn
       if (peezda) {
-        this.setState({
-          advanceTurnEnabled: true
-        })
+        // turn is over, end turn.
+        console.log('peezda')
+        this.turnOverToNextPlayer()
+        // this.setState({
+        //   advanceTurnEnabled: true
+        // })
       } else {
-        console.log('check')
+        console.log("component")
         canEndTurn(players[turn], dice, currentRollScore);
       }
       // if not peezda, allow user to pick dice to hold.
     }
+  }
+
+  turnOverToNextPlayer = () => {
+    const { changeTurn, turn, players } = this.props;
+    const numPlayers = Object.keys(players).length;
+    const nextPlayersTurn = calculateNextPlayersTurn(turn, numPlayers);
+    changeTurn(nextPlayersTurn);
   }
 
   allPlayersRolled = () => {

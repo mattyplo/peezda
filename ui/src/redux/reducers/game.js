@@ -1,4 +1,5 @@
 const initialState = {
+  canEndTurn: false,
   currentRollScore: 0,
   gameInSession: false,
   players: {},
@@ -100,9 +101,19 @@ const game = (state = initialState, action) => {
         }
       }
 
+    case 'CANNOT_END_TURN':
+      return {...state,
+        canEndTurn: false
+      }
+
+    case 'CAN_END_TURN':
+      return {...state,
+        canEndTurn: true
+      }
+
     case 'HOLD_DICE':
       return {...state,
-        dice: action.dice
+        dice: action.newDice
       }
 
     default: {
