@@ -1,5 +1,6 @@
 const initialState = {
   canEndTurn: false,
+  checkedForPeezda: false,
   currentRollScore: 0,
   gameInSession: false,
   players: {},
@@ -34,6 +35,11 @@ const initialState = {
 
 const game = (state = initialState, action) => {
   switch (action.type) {
+    case 'FLAG_CHECKED_FOR_PEEZDA_TRUE':
+      return {...state,
+        checkedForPeezda: true
+      }
+
     case 'START_NEW_GAME':
       return {...state,
       gameInSession: true,
@@ -54,6 +60,7 @@ const game = (state = initialState, action) => {
 
     case 'ROLL_DICE':
       return {...state,
+        checkedForPeezda: false,
         dice: action.dice
       }
 

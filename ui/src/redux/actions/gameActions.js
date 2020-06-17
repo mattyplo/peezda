@@ -12,6 +12,7 @@ export const ENABLE_PLAYER_TO_ROLL = 'ENABLE_PLAYER_TO_ROLL';
 export const DISALLOW_PLAYER_TO_ROLL = 'DISALLOW_PLAYER_TO_ROLL';
 export const CAN_END_TURN = 'CAN_END_TURN';
 export const CANNOT_END_TURN = 'CANNOT_END_TURN';
+export const FLAG_CHECKED_FOR_PEEZDA_TRUE = 'FLAG_CHECKED_FOR_PEEZDA_TRUE';
 
 export const startNewGame = (numberOfPlayers) => {
     // create players
@@ -30,7 +31,6 @@ export const rollAgain = (dice) => {
   const diceNotHeld = getDiceNotHeld(dice);
   const numDiceNotHeld = Object.keys(diceNotHeld).length
   // if all Die are held roll all dice
-  console.log(numDiceNotHeld)
   if ( numDiceNotHeld === 0) {
     diceRoll = rollDice(6);
     for (var die in diceRoll) {
@@ -163,7 +163,6 @@ export const changeTurn = (playerId) => {
 
 export const holdDice = (diceToHold, dice) => {
   var newDice = {};
-  console.log(diceToHold)
   for (var die in dice) {
     if (diceToHold[die]) {
       newDice[die] = {
@@ -180,6 +179,10 @@ export const holdDice = (diceToHold, dice) => {
   // for (var die in diceToHold) {
   //   dice[die].isHeld = true;
   // }
+  // console.log("old dice: ")
+  // console.log(dice)
+  // console.log("new dice: ")
+  // console.log(newDice)
   return {
     type: HOLD_DICE,
     newDice
@@ -207,6 +210,12 @@ export const enablePlayerToRoll = (playerID) => {
   }
 }
 
+export const markCheckedForPeezda = () => {
+  return {
+    type: FLAG_CHECKED_FOR_PEEZDA_TRUE
+  }
+}
+
 export const canEndTurn = (player, dice, currentRollScore) => {
   // get dice not held
   const diceNotHeld = getDiceNotHeld(dice);
@@ -225,6 +234,8 @@ export const canEndTurn = (player, dice, currentRollScore) => {
   const totalRollScore = currentRollScore + scoreOfDiceNotHeld;
 
   // The play reached the minimum, and has a none scoring dice, return true.
+
+  console.log(player)
   if (((player.score === 0 && totalRollScore >= 500) ||
       (player.score !== 0 && totalRollScore >= 350)) &&
       dieNotScored) {

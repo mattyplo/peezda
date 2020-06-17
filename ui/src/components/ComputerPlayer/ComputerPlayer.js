@@ -39,14 +39,14 @@ export class ComputerPlayer extends Component {
     }
 
     // if the computer roled the dice, evaluate their next move
-    if (isTurn && prevProps.isTurn && dice !== prevProps.dice) {
+    if (isTurn && prevProps.isTurn && dice !== prevProps.dice && !rollIsEnabled) {
       // evaluate which dice to hold
       this.determineMove();
     }
   }
 
   determineMove = () => {
-    setTimeout(() => {}, 1000);
+    //setTimeout(() => {}, 1000);
     const { dice, score, currentRollScore, holdDice, playerId, scoreCurrentDice, enablePlayerToRoll } = this.props;
     const diceToHold = selectDiceToHold(dice);
     const scoreOfCurrentDice = getScoreOfDice(diceToHold);
@@ -59,6 +59,7 @@ export class ComputerPlayer extends Component {
       enablePlayerToRoll(playerId);
     } else { // if min score is met, holdDiceAndEndTurn
       console.log('end turn');
+      // holdDice(diceToHold, dice);
       scoreCurrentDice(scoreOfCurrentDice);
       // endTurn()   -> NEED TO WRITE THIS FUNCTION
     }
