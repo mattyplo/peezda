@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import Die from '../Die/Die.js';
 import PlayByPlay from '../PlayByPlay/PlayByPlay.js';
 import './Table.css';
-import { changeTurn } from '../../redux/actions/gameActions.js';
+import { changeTurn, toggleToHold } from '../../redux/actions/gameActions.js';
 import { calculateNextPlayersTurn } from '../../utility/rules.js';
 
 class Table extends Component {
@@ -34,14 +34,14 @@ class Table extends Component {
   }
 
   toggleHoldDie = (diceId) => {
-    // check if die can be held.
     const canBeHeld = this.checkDieCanBeHeld(diceId);
     // if die can't be held, don't toggle.
     if (!canBeHeld) {
       return;
     }
+    // **************** old way
+    // check if die can be held.
     // if die can be held
-    this.props.holdDie(diceId);
     this.setState(prevState => ({
       ...prevState,
       diceMarkedToHold: {
@@ -49,6 +49,10 @@ class Table extends Component {
         [diceId]: !prevState.diceMarkedToHold[diceId]
       }
     }))
+
+
+    // **************** New Way
+    this.props.toggleToHold(diceId);
   }
 
   checkDieCanBeHeld = (diceId) => {
@@ -99,6 +103,7 @@ class Table extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
+    toggleToHold: (diceId) => dispatch(toggleToHold(diceId)),
     changeTurn: (nextPlayersTurn) => dispatch(changeTurn(nextPlayersTurn))
   }
 }

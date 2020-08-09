@@ -13,6 +13,7 @@ export const DISALLOW_PLAYER_TO_ROLL = 'DISALLOW_PLAYER_TO_ROLL';
 export const CAN_END_TURN = 'CAN_END_TURN';
 export const CANNOT_END_TURN = 'CANNOT_END_TURN';
 export const FLAG_CHECKED_FOR_PEEZDA_TRUE = 'FLAG_CHECKED_FOR_PEEZDA_TRUE';
+export const TOGGLE_MARKED_TO_HOLD = 'TOGGLE_MARKED_TO_HOLD';
 
 export const startNewGame = (playerTypes) => {
     // create players
@@ -22,7 +23,6 @@ export const startNewGame = (playerTypes) => {
       players
     }
     return action;
-
 }
 
 const createPlayers = (players) => {
@@ -278,5 +278,12 @@ export const canEndTurn = (player, dice, currentRollScore) => {
   }
   return {
     type: CANNOT_END_TURN
+  }
+}
+
+export const toggleToHold = (diceId) => {
+  return {
+    type: TOGGLE_MARKED_TO_HOLD,
+    diceId
   }
 }

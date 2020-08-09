@@ -17,7 +17,6 @@ class Game extends Component {
 
     this.turnOverToNextPlayer = this.turnOverToNextPlayer.bind(this);
     this.allPlayersRolled = this.allPlayersRolled.bind(this);
-    this.holdDie = this.holdDie.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -74,10 +73,6 @@ class Game extends Component {
     }
     // each player has a roll value, return true
     return true;
-  }
-
-  holdDie = (diceId) => {
-    console.log(diceId);
   }
 
   render() {

@@ -129,6 +129,17 @@ const game = (state = initialState, action) => {
         dice: action.newDice
       }
 
+    case 'TOGGLE_MARKED_TO_HOLD':
+      return {...state,
+        dice: {
+          ...state.dice,
+          [action.diceId]: {
+            ...state.dice[action.diceId],
+            markedToHold: !state.dice[action.diceId].markedToHold
+          }
+        }
+      }
+
     default: {
       return state;
     }
