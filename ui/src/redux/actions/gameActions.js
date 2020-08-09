@@ -14,15 +14,48 @@ export const CAN_END_TURN = 'CAN_END_TURN';
 export const CANNOT_END_TURN = 'CANNOT_END_TURN';
 export const FLAG_CHECKED_FOR_PEEZDA_TRUE = 'FLAG_CHECKED_FOR_PEEZDA_TRUE';
 
-export const startNewGame = (numberOfPlayers) => {
+export const startNewGame = (playerTypes) => {
     // create players
-    const players = createPlayers(numberOfPlayers);
+    const players = createPlayers(playerTypes);
     const action =  {
       type: START_NEW_GAME,
       players
     }
     return action;
 
+}
+
+const createPlayers = (players) => {
+  // create an object of players,  player one is human. the rest are computer.
+  let updatedPlayers = {};
+
+  var counter = 1;
+  Object.keys(players).forEach((key) => {
+    var isHuman = players[key].type === 'human' ? true : false;
+    updatedPlayers[counter] = {
+      isHuman,
+      score: 0,
+      roll: null,
+      preGameRollOff: true,
+      rollIsEnabled: false
+    }
+    counter ++;
+  })
+
+  // for (var i = 0; i <= numberOfPlayers; i ++) {
+  //   let isHuman = false;
+  //   if (i === 1) {
+  //     isHuman =true;
+  //   }
+  //   players[i] = {
+  //     isHuman,
+  //     score: 0,
+  //     roll: null,
+  //     preGameRollOff: true,
+  //     rollIsEnabled: false
+  //   }
+  // }
+  return updatedPlayers;
 }
 
 export const rollAgain = (dice) => {
@@ -246,23 +279,4 @@ export const canEndTurn = (player, dice, currentRollScore) => {
   return {
     type: CANNOT_END_TURN
   }
-}
-
-const createPlayers = (numberOfPlayers) => {
-  // create an object of players,  player one is human. the rest are computer.
-  let players = {};
-  for (var i = 1; i <= numberOfPlayers; i ++) {
-    let isHuman = false;
-    if (i === 1) {
-      isHuman =true;
-    }
-    players[i] = {
-      isHuman,
-      score: 0,
-      roll: null,
-      preGameRollOff: true,
-      rollIsEnabled: false
-    }
-  }
-  return players;
 }

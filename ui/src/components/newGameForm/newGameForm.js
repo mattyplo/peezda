@@ -30,10 +30,16 @@ class NewGameForm extends Component {
     // fire startNewGame action
     // number of players = number of opponents + the user.
     // Need to convert numberOfPlayers in state to number
-    const numberOfPlayers = Number(this.state.numberOfPlayers) + 1;
+    // const numberOfPlayers = Number(this.state.numberOfPlayers) + 1;
     // Start a new game passing in number of players as an argument.
-    this.props.startNewGame(numberOfPlayers);
+
+    //console.log(this.state.players);
+    //this.props.startNewGame(numberOfPlayers);
     // change local State createNewGame to true
+
+    const { players } = this.state;
+    this.props.startNewGame(players)
+
     this.setState({
       createNewGame: true
     })
@@ -104,7 +110,6 @@ class NewGameForm extends Component {
   }
 
   render() {
-    console.log(this.state)
     // If user creates newGame, redirect to the Game component.
     if (this.state.createNewGame) {
        return <Redirect to='/match'/>
