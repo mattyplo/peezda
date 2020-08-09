@@ -110,7 +110,8 @@ export const roll = () => {
     var index = parseInt(die) + 1
     dice[index] = {
                     value: diceRoll[die],
-                    isHeld: false
+                    isHeld: false,
+                    markedToHold: false
                   };
   }
 
@@ -268,7 +269,6 @@ export const canEndTurn = (player, dice, currentRollScore) => {
 
   // The play reached the minimum, and has a none scoring dice, return true.
 
-  console.log(player)
   if (((player.score === 0 && totalRollScore >= 500) ||
       (player.score !== 0 && totalRollScore >= 350)) &&
       dieNotScored) {

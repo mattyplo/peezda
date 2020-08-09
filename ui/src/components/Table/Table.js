@@ -34,8 +34,6 @@ class Table extends Component {
   }
 
   toggleHoldDie = (diceId) => {
-    console.log(this.state)
-
     // check if die can be held.
     const canBeHeld = this.checkDieCanBeHeld(diceId);
     // if die can't be held, don't toggle.
@@ -43,6 +41,7 @@ class Table extends Component {
       return;
     }
     // if die can be held
+    this.props.holdDie(diceId);
     this.setState(prevState => ({
       ...prevState,
       diceMarkedToHold: {

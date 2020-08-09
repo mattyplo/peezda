@@ -17,6 +17,7 @@ class Game extends Component {
 
     this.turnOverToNextPlayer = this.turnOverToNextPlayer.bind(this);
     this.allPlayersRolled = this.allPlayersRolled.bind(this);
+    this.holdDie = this.holdDie.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -75,6 +76,10 @@ class Game extends Component {
     return true;
   }
 
+  holdDie = (diceId) => {
+    console.log(diceId);
+  }
+
   render() {
 
 
@@ -94,6 +99,7 @@ class Game extends Component {
           players = { players }
           turn={ turn }
           advanceTurnEnabled={ advanceTurnEnabled }
+          holdDie={ this.holdDie }
         />
       </div>
     )
