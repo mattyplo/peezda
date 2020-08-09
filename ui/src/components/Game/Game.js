@@ -41,7 +41,7 @@ class Game extends Component {
       this.props.markCheckedForPeezda();
       const peezda = isPeezda(dice);
       // if peezda, enable AdvanceTurn
-      console.log(peezda);
+      console.log("peezda = " + peezda);
       if (peezda) {
         // turn is over, end turn.
         console.log('peezda')
