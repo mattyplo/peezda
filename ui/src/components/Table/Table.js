@@ -39,7 +39,9 @@ class Table extends Component {
     // check if die can be held.
     const canBeHeld = this.checkDieCanBeHeld(diceId);
     // if die can't be held, don't toggle.
-
+    if (!canBeHeld) {
+      return;
+    }
     // if die can be held
     this.setState(prevState => ({
       ...prevState,
