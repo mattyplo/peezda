@@ -14,6 +14,7 @@ export const CAN_END_TURN = 'CAN_END_TURN';
 export const CANNOT_END_TURN = 'CANNOT_END_TURN';
 export const FLAG_CHECKED_FOR_PEEZDA_TRUE = 'FLAG_CHECKED_FOR_PEEZDA_TRUE';
 export const TOGGLE_MARKED_TO_HOLD = 'TOGGLE_MARKED_TO_HOLD';
+export const PLAYER_ROLL_ENABLED = 'PLAYER_ROLL_ENABLED';
 
 export const startNewGame = (playerTypes) => {
     // create players

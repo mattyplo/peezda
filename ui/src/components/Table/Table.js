@@ -50,7 +50,6 @@ class Table extends Component {
       }
     }))
 
-
     // **************** New Way
     this.props.toggleToHold(diceId);
   }

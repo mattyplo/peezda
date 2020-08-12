@@ -109,3 +109,22 @@ export const getScoreOfDice = (dice) => {
   }
   return score;
 }
+
+export const isScoringDiceHeld = (dice) => {
+  var numOfAKind = [0, 0, 0, 0, 0, 0];
+  for (var die in dice ) {
+    // if dice is not already held
+    if(dice[die].markedToHold) {
+        numOfAKind[dice[die].value - 1] ++
+    }
+  }
+
+  // if at least a one, five, or three of a kind of another side return true;
+  if (numOfAKind[0] > 0 || numOfAKind[1] > 2 ||
+      numOfAKind[2] > 2 || numOfAKind[3] > 2 ||
+      numOfAKind[4] > 0 || numOfAKind[5] > 2) {
+        return true;
+    }
+  // no scoring dice, return false
+  return false;
+}
