@@ -24,7 +24,7 @@ export const isPeezda = (dice) => {
 export const getDiceNotHeld = (dice) => {
   var diceNotHeld = {};
   for (var die in dice) {
-    if (dice[die].isHeld === false) {
+    if (!dice[die].isHeld && !dice[die].markedToHold) {
       diceNotHeld[die] = dice[die];
     }
   }

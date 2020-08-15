@@ -41,7 +41,7 @@ export class PlayerCard extends Component {
   }
 
   roll = () => {
-    this.props.roll();
+    this.props.roll(this.props.dice);
     this.props.disallowPlayerToRoll(this.props.playerId);
   }
 
@@ -103,7 +103,7 @@ const mapDispatchToProps = dispatch => {
     enablePlayerToRoll: (playerId) => dispatch(enablePlayerToRoll(playerId)),
     disallowPlayerToRoll: (playerID) => dispatch(disallowPlayerToRoll(playerID)),
     preRoll: (playerID) => dispatch(preRoll(playerID)),
-    roll: () => dispatch(roll())
+    roll: (dice) => dispatch(roll(dice))
   }
 }
 

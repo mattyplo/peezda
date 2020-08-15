@@ -59,20 +59,21 @@ const createPlayers = (players) => {
   return updatedPlayers;
 }
 
-export const rollAgain = (dice) => {
+export const roll = (dice) => {
   var newDice = {};
   var diceRoll = [];
   const diceNotHeld = getDiceNotHeld(dice);
   const numDiceNotHeld = Object.keys(diceNotHeld).length
-  // if all Die are held roll all dice
-  if ( numDiceNotHeld === 0) {
+  // if all Die are held roll all dice or all die are not held (initial roll)
+  if ( numDiceNotHeld === 0 || numDiceNotHeld === 6 ) {
     diceRoll = rollDice(6);
     for (var die in diceRoll) {
       // add one to the identifier of the dice object so dice 1 is one and not 0 and so on.
       var index = parseInt(die) + 1
       newDice[index] = {
                       value: diceRoll[die],
-                      isHeld: false
+                      isHeld: false,
+                      markedToHold: false
                     };
     }
     return {
@@ -83,14 +84,16 @@ export const rollAgain = (dice) => {
     const diceRoll = rollDice(numDiceNotHeld)
     var diceRollIndex = 0;
     for (var die in dice) {
-      if (dice[die].isHeld) {
+      if (dice[die].isHeld || dice[die].markedToHold) {
         newDice[die] = {
           isHeld: true,
+          markedToHold: false,
           value: dice[die].value
         }
       } else { // The dice was not being held
         newDice[die] = {
           isHeld: false,
+          markedToHold: false,
           value: diceRoll[diceRollIndex]
         }
         diceRollIndex ++;
@@ -100,25 +103,6 @@ export const rollAgain = (dice) => {
       type: ROLL_DICE,
       dice: newDice
     }
-  }
-}
-
-export const roll = () => {
-  const diceRoll = rollDice(6);
-  const dice = {}
-  for (var die in diceRoll) {
-    // add one to the identifier of the dice object so dice 1 is one and not 0 and so on.
-    var index = parseInt(die) + 1
-    dice[index] = {
-                    value: diceRoll[die],
-                    isHeld: false,
-                    markedToHold: false
-                  };
-  }
-
-  return {
-    type: ROLL_DICE,
-    dice
   }
 }
 
@@ -212,13 +196,6 @@ export const holdDice = (diceToHold, dice) => {
       };
     }
   }
-  // for (var die in diceToHold) {
-  //   dice[die].isHeld = true;
-  // }
-  // console.log("old dice: ")
-  // console.log(dice)
-  // console.log("new dice: ")
-  // console.log(newDice)
   return {
     type: HOLD_DICE,
     newDice
