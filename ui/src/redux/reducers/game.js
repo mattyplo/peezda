@@ -59,7 +59,8 @@ const game = (state = initialState, action) => {
           [action.playerId]: {
             ...state.players[action.playerId],
             roll: action.diceRoll,
-            preGameRollOff: false
+            preGameRollOff: false,
+            rollIsEnabled: false
           }
         }
       }

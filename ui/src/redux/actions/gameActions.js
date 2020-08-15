@@ -38,7 +38,7 @@ const createPlayers = (players) => {
       score: 0,
       roll: null,
       preGameRollOff: true,
-      rollIsEnabled: false
+      rollIsEnabled: true
     }
     counter ++;
   })
@@ -177,6 +177,7 @@ export const determineOrder = (players) => {
       if (playersWithHighRoll.includes(playerId)) {
         updatedPlayers[playerId].roll = null;
         updatedPlayers[playerId].preGameRollOff = true;
+        updatedPlayers[playerId].rollIsEnabled = true;
       } else {
         updatedPlayers[playerId].roll = 0;
         updatedPlayers[playerId].preGameRollOff = false;
