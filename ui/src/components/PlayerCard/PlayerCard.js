@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import ComputerPlayer from '../ComputerPlayer/ComputerPlayer.js';
 import HumanPlayer from '../HumanPlayer/HumanPlayer.js';
-import { preRoll, roll, disallowPlayerToRoll } from '../../redux/actions/gameActions';
+import { preRoll, roll, disallowPlayerToRoll, enablePlayerToRoll } from '../../redux/actions/gameActions';
+import { isScoringDiceHeld } from '../../utility/rules.js';
 
 export class PlayerCard extends Component {
 
@@ -20,6 +21,19 @@ export class PlayerCard extends Component {
     this.preRoll = this.preRoll.bind(this);
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.isTurn && prevProps.dice !== this.props.dice) {
+      // checkIfPlayerCanRoll
+      const playerCanRoll = isScoringDiceHeld(this.props.dice);
+      // update rollIsEnabled of player whose turn it is.
+      if (playerCanRoll) {
+        this.props.enablePlayerToRoll(this.props.playerId)
+      } else {
+        this.props.disallowPlayerToRoll(this.props.playerId)
+      }
+    }
+  }
+
   enableRoll = () => {
     this.setState({
       rollEnabled: true
@@ -27,7 +41,7 @@ export class PlayerCard extends Component {
   }
 
   roll = () => {
-    this.props.roll();
+    this.props.roll(this.props.dice);
     this.props.disallowPlayerToRoll(this.props.playerId);
   }
 
@@ -51,19 +65,15 @@ export class PlayerCard extends Component {
             currentRollScore,
             rollIsEnabled,
             canEndTurn} = this.props;
-            
+
     if (isHuman) {
       return (
         <HumanPlayer
-          canEndTurn={canEndTurn}
-          rollEnabled={rollEnabled}
           rollIsEnabled={rollIsEnabled}
           playerId={playerId}
           score={score}
-          enableRoll={this.enableRoll}
           roll={this.roll}
           preRoll={this.preRoll}
-          preGameRollOff={preGameRollOff}
           isTurn={isTurn}
         />
       )
@@ -90,9 +100,10 @@ export class PlayerCard extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
+    enablePlayerToRoll: (playerId) => dispatch(enablePlayerToRoll(playerId)),
     disallowPlayerToRoll: (playerID) => dispatch(disallowPlayerToRoll(playerID)),
     preRoll: (playerID) => dispatch(preRoll(playerID)),
-    roll: () => dispatch(roll())
+    roll: (dice) => dispatch(roll(dice))
   }
 }
 

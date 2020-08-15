@@ -8,27 +8,33 @@ const initialState = {
   dice: {
     1: {
       value: 1,
-      isHeld: false
+      isHeld: false,
+      markedToHold: false
     },
     2: {
       value: 1,
-      isHeld: false
+      isHeld: false,
+      markedToHold: false
     },
     3: {
       value: 1,
-      isHeld: false
+      isHeld: false,
+      markedToHold: false
     },
     4: {
       value: 1,
-      isHeld: false
+      isHeld: false,
+      markedToHold: false
     },
     5: {
       value: 1,
-      isHeld: false
+      isHeld: false,
+      markedToHold: false
     },
     6: {
       value: 1,
-      isHeld: false
+      isHeld: false,
+      markedToHold: false
     },
   }
 };
@@ -53,7 +59,8 @@ const game = (state = initialState, action) => {
           [action.playerId]: {
             ...state.players[action.playerId],
             roll: action.diceRoll,
-            preGameRollOff: false
+            preGameRollOff: false,
+            rollIsEnabled: false
           }
         }
       }
@@ -121,6 +128,17 @@ const game = (state = initialState, action) => {
     case 'HOLD_DICE':
       return {...state,
         dice: action.newDice
+      }
+
+    case 'TOGGLE_MARKED_TO_HOLD':
+      return {...state,
+        dice: {
+          ...state.dice,
+          [action.diceId]: {
+            ...state.dice[action.diceId],
+            markedToHold: !state.dice[action.diceId].markedToHold
+          }
+        }
       }
 
     default: {

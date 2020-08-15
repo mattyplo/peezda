@@ -13,32 +13,67 @@ export const DISALLOW_PLAYER_TO_ROLL = 'DISALLOW_PLAYER_TO_ROLL';
 export const CAN_END_TURN = 'CAN_END_TURN';
 export const CANNOT_END_TURN = 'CANNOT_END_TURN';
 export const FLAG_CHECKED_FOR_PEEZDA_TRUE = 'FLAG_CHECKED_FOR_PEEZDA_TRUE';
+export const TOGGLE_MARKED_TO_HOLD = 'TOGGLE_MARKED_TO_HOLD';
+export const PLAYER_ROLL_ENABLED = 'PLAYER_ROLL_ENABLED';
 
-export const startNewGame = (numberOfPlayers) => {
+export const startNewGame = (playerTypes) => {
     // create players
-    const players = createPlayers(numberOfPlayers);
+    const players = createPlayers(playerTypes);
     const action =  {
       type: START_NEW_GAME,
       players
     }
     return action;
-
 }
 
-export const rollAgain = (dice) => {
+const createPlayers = (players) => {
+  // create an object of players,  player one is human. the rest are computer.
+  let updatedPlayers = {};
+
+  var counter = 1;
+  Object.keys(players).forEach((key) => {
+    var isHuman = players[key].type === 'human' ? true : false;
+    updatedPlayers[counter] = {
+      isHuman,
+      score: 0,
+      roll: null,
+      preGameRollOff: true,
+      rollIsEnabled: true
+    }
+    counter ++;
+  })
+
+  // for (var i = 0; i <= numberOfPlayers; i ++) {
+  //   let isHuman = false;
+  //   if (i === 1) {
+  //     isHuman =true;
+  //   }
+  //   players[i] = {
+  //     isHuman,
+  //     score: 0,
+  //     roll: null,
+  //     preGameRollOff: true,
+  //     rollIsEnabled: false
+  //   }
+  // }
+  return updatedPlayers;
+}
+
+export const roll = (dice) => {
   var newDice = {};
   var diceRoll = [];
   const diceNotHeld = getDiceNotHeld(dice);
   const numDiceNotHeld = Object.keys(diceNotHeld).length
-  // if all Die are held roll all dice
-  if ( numDiceNotHeld === 0) {
+  // if all Die are held roll all dice or all die are not held (initial roll)
+  if ( numDiceNotHeld === 0 || numDiceNotHeld === 6 ) {
     diceRoll = rollDice(6);
     for (var die in diceRoll) {
       // add one to the identifier of the dice object so dice 1 is one and not 0 and so on.
       var index = parseInt(die) + 1
       newDice[index] = {
                       value: diceRoll[die],
-                      isHeld: false
+                      isHeld: false,
+                      markedToHold: false
                     };
     }
     return {
@@ -49,14 +84,16 @@ export const rollAgain = (dice) => {
     const diceRoll = rollDice(numDiceNotHeld)
     var diceRollIndex = 0;
     for (var die in dice) {
-      if (dice[die].isHeld) {
+      if (dice[die].isHeld || dice[die].markedToHold) {
         newDice[die] = {
           isHeld: true,
+          markedToHold: false,
           value: dice[die].value
         }
       } else { // The dice was not being held
         newDice[die] = {
           isHeld: false,
+          markedToHold: false,
           value: diceRoll[diceRollIndex]
         }
         diceRollIndex ++;
@@ -66,24 +103,6 @@ export const rollAgain = (dice) => {
       type: ROLL_DICE,
       dice: newDice
     }
-  }
-}
-
-export const roll = () => {
-  const diceRoll = rollDice(6);
-  const dice = {}
-  for (var die in diceRoll) {
-    // add one to the identifier of the dice object so dice 1 is one and not 0 and so on.
-    var index = parseInt(die) + 1
-    dice[index] = {
-                    value: diceRoll[die],
-                    isHeld: false
-                  };
-  }
-
-  return {
-    type: ROLL_DICE,
-    dice
   }
 }
 
@@ -142,6 +161,7 @@ export const determineOrder = (players) => {
       if (playersWithHighRoll.includes(playerId)) {
         updatedPlayers[playerId].roll = null;
         updatedPlayers[playerId].preGameRollOff = true;
+        updatedPlayers[playerId].rollIsEnabled = true;
       } else {
         updatedPlayers[playerId].roll = 0;
         updatedPlayers[playerId].preGameRollOff = false;
@@ -176,13 +196,6 @@ export const holdDice = (diceToHold, dice) => {
       };
     }
   }
-  // for (var die in diceToHold) {
-  //   dice[die].isHeld = true;
-  // }
-  // console.log("old dice: ")
-  // console.log(dice)
-  // console.log("new dice: ")
-  // console.log(newDice)
   return {
     type: HOLD_DICE,
     newDice
@@ -235,7 +248,6 @@ export const canEndTurn = (player, dice, currentRollScore) => {
 
   // The play reached the minimum, and has a none scoring dice, return true.
 
-  console.log(player)
   if (((player.score === 0 && totalRollScore >= 500) ||
       (player.score !== 0 && totalRollScore >= 350)) &&
       dieNotScored) {
@@ -248,21 +260,9 @@ export const canEndTurn = (player, dice, currentRollScore) => {
   }
 }
 
-const createPlayers = (numberOfPlayers) => {
-  // create an object of players,  player one is human. the rest are computer.
-  let players = {};
-  for (var i = 1; i <= numberOfPlayers; i ++) {
-    let isHuman = false;
-    if (i === 1) {
-      isHuman =true;
-    }
-    players[i] = {
-      isHuman,
-      score: 0,
-      roll: null,
-      preGameRollOff: true,
-      rollIsEnabled: false
-    }
+export const toggleToHold = (diceId) => {
+  return {
+    type: TOGGLE_MARKED_TO_HOLD,
+    diceId
   }
-  return players;
 }
