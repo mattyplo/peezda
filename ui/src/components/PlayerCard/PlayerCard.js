@@ -69,15 +69,11 @@ export class PlayerCard extends Component {
     if (isHuman) {
       return (
         <HumanPlayer
-          canEndTurn={canEndTurn}
-          rollEnabled={rollEnabled}
           rollIsEnabled={rollIsEnabled}
           playerId={playerId}
           score={score}
-          enableRoll={this.enableRoll}
           roll={this.roll}
           preRoll={this.preRoll}
-          preGameRollOff={preGameRollOff}
           isTurn={isTurn}
         />
       )
