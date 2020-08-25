@@ -17,8 +17,18 @@ class Die extends Component {
   render() {
 
     const diceVal = this.props.value;
-    const { markedHeld } = this.props;
-    const dieHeldStyle = (markedHeld) ? { opacity: '50%' }  : { opacity : '100' };
+    const { markedHeld, markedToHold } = this.props;
+    var dieHeldStyle;
+
+    if (markedHeld){
+      dieHeldStyle = { opacity: '33%' };
+    } else if (markedToHold) {
+      dieHeldStyle = { opacity: '66%' };
+    } else {
+      dieHeldStyle = { opacity: '100%' };
+    }
+
+    // const dieHeldStyle = (markedHeld) ? { opacity: '50%' }  : { opacity : '100%' };
 
     return (
       <div class='die'>

@@ -90,7 +90,8 @@ class Table extends Component {
               holdDie={this.toggleHoldDie}
               key={die}
               diceId={die}
-              markedHeld={dice[die].isHeld ? true : diceMarkedToHold[die]}
+              markedHeld={dice[die].isHeld ? true : false }
+              markedToHold={dice[die].markedToHold ? true : false }
             />
           )}
         </div>
