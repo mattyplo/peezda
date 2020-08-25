@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import ComputerPlayer from '../ComputerPlayer/ComputerPlayer.js';
 import HumanPlayer from '../HumanPlayer/HumanPlayer.js';
 import { preRoll, roll, disallowPlayerToRoll, enablePlayerToRoll, updateCurrentRollScore } from '../../redux/actions/gameActions';
-import { isScoringDiceHeld } from '../../utility/rules.js';
+import { isScoringDiceHeld, playerCanEndTurn } from '../../utility/rules.js';
 
 export class PlayerCard extends Component {
 
@@ -71,12 +71,13 @@ export class PlayerCard extends Component {
             isTurn,
             dice,
             currentRollScore,
-            rollIsEnabled,
-            canEndTurn} = this.props;
+            rollIsEnabled } = this.props;
+    var canEndTurn = isTurn && playerCanEndTurn(dice, score, currentRollScore) ? true : false;
 
     if (isHuman) {
       return (
         <HumanPlayer
+          canEndTurn={canEndTurn}
           rollIsEnabled={rollIsEnabled}
           playerId={playerId}
           score={score}

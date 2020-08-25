@@ -138,3 +138,13 @@ export const isScoringDiceHeld = (dice) => {
   // no scoring dice, return false
   return false;
 }
+
+export const playerCanEndTurn = (dice, score, currentRollScore) => {
+  const diceMarkedToHold = getDiceMarkedToHold(dice);
+  const scoreOfDiceMarkedToHold = getScoreOfDice(diceMarkedToHold);
+  const combinedRollScore = currentRollScore + scoreOfDiceMarkedToHold;
+  if ((score > 0 && combinedRollScore >= 350) || (score === 0 && combinedRollScore >= 500)) {
+    return true;
+  }
+  return false;
+}
