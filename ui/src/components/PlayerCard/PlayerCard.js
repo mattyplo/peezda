@@ -17,6 +17,7 @@ export class PlayerCard extends Component {
 
     // Bind methods
     this.enableRoll = this.enableRoll.bind(this);
+    this.endTurn = this.endTurn.bind(this);
     this.roll = this.roll.bind(this);
     this.preRoll = this.preRoll.bind(this);
   }
@@ -38,6 +39,10 @@ export class PlayerCard extends Component {
     this.setState({
       rollEnabled: true
     })
+  }
+
+  endTurn = () => {
+    console.log('end turn');
   }
 
   roll = () => {
@@ -78,6 +83,7 @@ export class PlayerCard extends Component {
           roll={this.roll}
           preRoll={this.preRoll}
           isTurn={isTurn}
+          endTurn={this.endTurn}
         />
       )
     } else {

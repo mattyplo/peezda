@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export class HumanPlayer extends Component {
   render() {
 
-    const { playerId, score, preRoll, roll, isTurn, rollIsEnabled } = this.props
+    const { endTurn, playerId, score, preRoll, roll, isTurn, rollIsEnabled } = this.props
 
     return(
       <div>
@@ -11,6 +11,7 @@ export class HumanPlayer extends Component {
         <h3>score = {score}</h3>
         <h3>You</h3>
         <button onClick={isTurn ? roll : preRoll} disabled={rollIsEnabled ? false : true}>Role</button>
+        <button onClick={endTurn}>End Turn</button>
       </div>
     )
   }
