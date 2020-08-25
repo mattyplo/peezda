@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import ComputerPlayer from '../ComputerPlayer/ComputerPlayer.js';
 import HumanPlayer from '../HumanPlayer/HumanPlayer.js';
-import { preRoll, roll, disallowPlayerToRoll, enablePlayerToRoll } from '../../redux/actions/gameActions';
+import { preRoll, roll, disallowPlayerToRoll, enablePlayerToRoll, updateCurrentRollScore } from '../../redux/actions/gameActions';
 import { isScoringDiceHeld } from '../../utility/rules.js';
 
 export class PlayerCard extends Component {
@@ -41,7 +41,10 @@ export class PlayerCard extends Component {
   }
 
   roll = () => {
-    this.props.roll(this.props.dice);
+    // updateCurrentRollScore
+    const { dice } = this.props;
+    this.props.updateCurrentRollScore(dice)
+    this.props.roll(dice);
     this.props.disallowPlayerToRoll(this.props.playerId);
   }
 
@@ -103,7 +106,8 @@ const mapDispatchToProps = dispatch => {
     enablePlayerToRoll: (playerId) => dispatch(enablePlayerToRoll(playerId)),
     disallowPlayerToRoll: (playerID) => dispatch(disallowPlayerToRoll(playerID)),
     preRoll: (playerID) => dispatch(preRoll(playerID)),
-    roll: (dice) => dispatch(roll(dice))
+    roll: (dice) => dispatch(roll(dice)),
+    updateCurrentRollScore: (dice) => dispatch(updateCurrentRollScore(dice))
   }
 }
 

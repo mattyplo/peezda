@@ -141,6 +141,14 @@ const game = (state = initialState, action) => {
         }
       }
 
+    case 'UPDATE_CURRENT_ROLL_SCORE':
+      const updatedCurrentRollScore = state.currentRollScore + action.diceMarkedHeldScore;
+      console.log(state.currentRollScore)
+      console.log(action.diceMarkedHeldScore)
+      return {...state,
+        currentRollScore: updatedCurrentRollScore
+      }
+
     default: {
       return state;
     }

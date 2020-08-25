@@ -31,6 +31,16 @@ export const getDiceNotHeld = (dice) => {
   return diceNotHeld;
 }
 
+export const getDiceMarkedToHold = (dice) => {
+  var diceMarkedToHold = {};
+  for (var die in dice) {
+    if (dice[die].markedToHold) {
+      diceMarkedToHold[die] = dice[die];
+    }
+  }
+  return diceMarkedToHold;
+}
+
 export const getNumOfAKind = (dice) => {
   var numOfAKind = [0, 0, 0, 0, 0, 0];
   for (var die in dice ) {
