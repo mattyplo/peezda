@@ -31,6 +31,16 @@ export const getDiceNotHeld = (dice) => {
   return diceNotHeld;
 }
 
+export const getDiceMarkedToHold = (dice) => {
+  var diceMarkedToHold = {};
+  for (var die in dice) {
+    if (dice[die].markedToHold) {
+      diceMarkedToHold[die] = dice[die];
+    }
+  }
+  return diceMarkedToHold;
+}
+
 export const getNumOfAKind = (dice) => {
   var numOfAKind = [0, 0, 0, 0, 0, 0];
   for (var die in dice ) {
@@ -126,5 +136,15 @@ export const isScoringDiceHeld = (dice) => {
         return true;
     }
   // no scoring dice, return false
+  return false;
+}
+
+export const playerCanEndTurn = (dice, score, currentRollScore) => {
+  const diceMarkedToHold = getDiceMarkedToHold(dice);
+  const scoreOfDiceMarkedToHold = getScoreOfDice(diceMarkedToHold);
+  const combinedRollScore = currentRollScore + scoreOfDiceMarkedToHold;
+  if ((score > 0 && combinedRollScore >= 350) || (score === 0 && combinedRollScore >= 500)) {
+    return true;
+  }
   return false;
 }

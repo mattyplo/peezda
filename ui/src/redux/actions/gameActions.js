@@ -1,4 +1,4 @@
-import { getDiceNotHeld, getNumOfAKind, getScoreOfDice } from '../../utility/rules.js';
+import { getDiceNotHeld, getDiceMarkedToHold, getNumOfAKind, getScoreOfDice } from '../../utility/rules.js';
 
 export const START_NEW_GAME = 'START_NEW_GAME';
 export const ADD_PLAYERS = 'ADD_PLAYERS';
@@ -15,6 +15,8 @@ export const CANNOT_END_TURN = 'CANNOT_END_TURN';
 export const FLAG_CHECKED_FOR_PEEZDA_TRUE = 'FLAG_CHECKED_FOR_PEEZDA_TRUE';
 export const TOGGLE_MARKED_TO_HOLD = 'TOGGLE_MARKED_TO_HOLD';
 export const PLAYER_ROLL_ENABLED = 'PLAYER_ROLL_ENABLED';
+export const UNMARK_HELD_DICE = 'UNMARK_HELD_DICE';
+export const UPDATE_CURRENT_ROLL_SCORE = 'UPDATE_CURRENT_ROLL_SCORE';
 
 export const startNewGame = (playerTypes) => {
     // create players
@@ -181,6 +183,22 @@ export const changeTurn = (playerId) => {
   }
 }
 
+export const unmarkDiceHeld = (dice) => {
+  var newDice = {};
+  for (var die in dice) {
+    newDice[die] = {
+      value: dice[die].value,
+      isHeld: false,
+      markedToHold: false
+    }
+  }
+  console.log(newDice);
+  return {
+    type: UNMARK_HELD_DICE,
+    newDice
+  }
+}
+
 export const holdDice = (diceToHold, dice) => {
   var newDice = {};
   for (var die in dice) {
@@ -264,5 +282,15 @@ export const toggleToHold = (diceId) => {
   return {
     type: TOGGLE_MARKED_TO_HOLD,
     diceId
+  }
+}
+
+export const updateCurrentRollScore = (dice) => {
+  const diceMarkedToHold = getDiceMarkedToHold(dice);
+  const diceMarkedHeldScore = getScoreOfDice(diceMarkedToHold);
+  console.log(diceMarkedHeldScore);
+  return {
+    type: UPDATE_CURRENT_ROLL_SCORE,
+    diceMarkedHeldScore
   }
 }

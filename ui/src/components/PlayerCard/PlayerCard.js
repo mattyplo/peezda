@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import ComputerPlayer from '../ComputerPlayer/ComputerPlayer.js';
 import HumanPlayer from '../HumanPlayer/HumanPlayer.js';
-import { preRoll, roll, disallowPlayerToRoll, enablePlayerToRoll } from '../../redux/actions/gameActions';
-import { isScoringDiceHeld } from '../../utility/rules.js';
+import { preRoll, roll, disallowPlayerToRoll, enablePlayerToRoll, updateCurrentRollScore } from '../../redux/actions/gameActions';
+import { isScoringDiceHeld, playerCanEndTurn } from '../../utility/rules.js';
 
 export class PlayerCard extends Component {
 
@@ -17,6 +17,7 @@ export class PlayerCard extends Component {
 
     // Bind methods
     this.enableRoll = this.enableRoll.bind(this);
+    this.endTurn = this.endTurn.bind(this);
     this.roll = this.roll.bind(this);
     this.preRoll = this.preRoll.bind(this);
   }
@@ -32,6 +33,11 @@ export class PlayerCard extends Component {
         this.props.disallowPlayerToRoll(this.props.playerId)
       }
     }
+
+    // The turn changed to this players turn, they need to roll.
+    if (this.props.isTurn && !prevProps.isTurn) {
+      this.props.enablePlayerToRoll(this.props.playerId);
+    }
   }
 
   enableRoll = () => {
@@ -40,8 +46,18 @@ export class PlayerCard extends Component {
     })
   }
 
+  endTurn = () => {
+    console.log('end turn');
+    // score currentRollScore
+
+    // changeTurn
+  }
+
   roll = () => {
-    this.props.roll(this.props.dice);
+    // updateCurrentRollScore
+    const { dice } = this.props;
+    this.props.updateCurrentRollScore(dice)
+    this.props.roll(dice);
     this.props.disallowPlayerToRoll(this.props.playerId);
   }
 
@@ -63,18 +79,20 @@ export class PlayerCard extends Component {
             isTurn,
             dice,
             currentRollScore,
-            rollIsEnabled,
-            canEndTurn} = this.props;
+            rollIsEnabled } = this.props;
+    var canEndTurn = isTurn && playerCanEndTurn(dice, score, currentRollScore) ? true : false;
 
     if (isHuman) {
       return (
         <HumanPlayer
+          canEndTurn={canEndTurn}
           rollIsEnabled={rollIsEnabled}
           playerId={playerId}
           score={score}
           roll={this.roll}
           preRoll={this.preRoll}
           isTurn={isTurn}
+          endTurn={this.endTurn}
         />
       )
     } else {
@@ -103,7 +121,8 @@ const mapDispatchToProps = dispatch => {
     enablePlayerToRoll: (playerId) => dispatch(enablePlayerToRoll(playerId)),
     disallowPlayerToRoll: (playerID) => dispatch(disallowPlayerToRoll(playerID)),
     preRoll: (playerID) => dispatch(preRoll(playerID)),
-    roll: (dice) => dispatch(roll(dice))
+    roll: (dice) => dispatch(roll(dice)),
+    updateCurrentRollScore: (dice) => dispatch(updateCurrentRollScore(dice))
   }
 }
 

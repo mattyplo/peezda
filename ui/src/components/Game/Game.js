@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { canEndTurn, changeTurn, determineOrder, markCheckedForPeezda } from '../../redux/actions/gameActions';
+import { canEndTurn, changeTurn, determineOrder, markCheckedForPeezda, unmarkDiceHeld } from '../../redux/actions/gameActions';
 import { calculateNextPlayersTurn, isPeezda } from '../../utility/rules.js';
 import Seats from '../Seats/Seats.js';
 import Table from '../Table/Table.js';
@@ -41,7 +41,7 @@ class Game extends Component {
       this.props.markCheckedForPeezda();
       const peezda = isPeezda(dice);
       // if peezda, enable AdvanceTurn
-      console.log("peezda = " + peezda);
+      // console.log("peezda = " + peezda);
       if (peezda) {
         // turn is over, end turn.
         console.log('peezda')
@@ -57,9 +57,10 @@ class Game extends Component {
   }
 
   turnOverToNextPlayer = () => {
-    const { changeTurn, turn, players } = this.props;
+    const { changeTurn, dice, unmarkDiceHeld, turn, players } = this.props;
     const numPlayers = Object.keys(players).length;
     const nextPlayersTurn = calculateNextPlayersTurn(turn, numPlayers);
+    unmarkDiceHeld(dice);
     changeTurn(nextPlayersTurn);
   }
 
@@ -78,7 +79,7 @@ class Game extends Component {
   render() {
 
 
-    const { players, turn, dice } = this.props;
+    const { isTurnsInitialRoll, players, turn, dice } = this.props;
     const { advanceTurnEnabled } = this.state;
 
     return (
@@ -91,6 +92,7 @@ class Game extends Component {
         />
         <Table
           dice = { dice }
+          isTurnsInitialRoll = { isTurnsInitialRoll }
           players = { players }
           turn={ turn }
           advanceTurnEnabled={ advanceTurnEnabled }
@@ -106,17 +108,19 @@ const mapDispatchToProps = dispatch => {
     canEndTurn: (player, dice, currentRollScore) => dispatch(canEndTurn(player, dice, currentRollScore)),
     changeTurn: (playerId) => dispatch(changeTurn(playerId)),
     determineOrder: (players) => dispatch(determineOrder(players)),
-    markCheckedForPeezda: () => dispatch(markCheckedForPeezda())
+    markCheckedForPeezda: () => dispatch(markCheckedForPeezda()),
+    unmarkDiceHeld: (dice) => dispatch(unmarkDiceHeld(dice))
   }
 }
 
 const mapStateToProps = (state) => {
 
-  const { checkedForPeezda, currentRollScore, players, turn, dice } = state.game;
+  const { checkedForPeezda, currentRollScore, isTurnsInitialRoll, players, turn, dice } = state.game;
 
   return {
     checkedForPeezda,
     currentRollScore,
+    isTurnsInitialRoll,
     players,
     turn,
     dice
