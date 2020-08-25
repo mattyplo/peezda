@@ -15,6 +15,7 @@ export const CANNOT_END_TURN = 'CANNOT_END_TURN';
 export const FLAG_CHECKED_FOR_PEEZDA_TRUE = 'FLAG_CHECKED_FOR_PEEZDA_TRUE';
 export const TOGGLE_MARKED_TO_HOLD = 'TOGGLE_MARKED_TO_HOLD';
 export const PLAYER_ROLL_ENABLED = 'PLAYER_ROLL_ENABLED';
+export const UNMARK_HELD_DICE = 'UNMARK_HELD_DICE';
 export const UPDATE_CURRENT_ROLL_SCORE = 'UPDATE_CURRENT_ROLL_SCORE';
 
 export const startNewGame = (playerTypes) => {
@@ -179,6 +180,22 @@ export const changeTurn = (playerId) => {
   return {
     type: CHANGE_TURN,
     playerId
+  }
+}
+
+export const unmarkDiceHeld = (dice) => {
+  var newDice = {};
+  for (var die in dice) {
+    newDice[die] = {
+      value: dice[die].value,
+      isHeld: false,
+      markedToHold: false
+    }
+  }
+  console.log(newDice);
+  return {
+    type: UNMARK_HELD_DICE,
+    newDice
   }
 }
 

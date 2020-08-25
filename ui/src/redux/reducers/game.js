@@ -3,6 +3,7 @@ const initialState = {
   checkedForPeezda: false,
   currentRollScore: 0,
   gameInSession: false,
+  isTurnsInitialRoll: false,
   players: {},
   turn: null,
   dice: {
@@ -68,11 +69,14 @@ const game = (state = initialState, action) => {
     case 'ROLL_DICE':
       return {...state,
         checkedForPeezda: false,
-        dice: action.dice
+        dice: action.dice,
+        isTurnsInitialRoll: false
       }
 
     case 'CHANGE_TURN':
       return {...state,
+        currentRollScore: 0,
+        isTurnsInitialRoll: true,
         turn: action.playerId,
         players: {
           ...state.players,
@@ -139,6 +143,11 @@ const game = (state = initialState, action) => {
             markedToHold: !state.dice[action.diceId].markedToHold
           }
         }
+      }
+
+    case 'UNMARK_HELD_DICE':
+      return {...state,
+        dice: action.newDice
       }
 
     case 'UPDATE_CURRENT_ROLL_SCORE':

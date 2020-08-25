@@ -33,6 +33,11 @@ export class PlayerCard extends Component {
         this.props.disallowPlayerToRoll(this.props.playerId)
       }
     }
+
+    // The turn changed to this players turn, they need to roll.
+    if (this.props.isTurn && !prevProps.isTurn) {
+      this.props.enablePlayerToRoll(this.props.playerId);
+    }
   }
 
   enableRoll = () => {

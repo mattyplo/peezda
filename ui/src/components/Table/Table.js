@@ -36,25 +36,28 @@ class Table extends Component {
   toggleHoldDie = (diceId) => {
     const canBeHeld = this.checkDieCanBeHeld(diceId);
     // if die can't be held, don't toggle.
-    if (!canBeHeld) {
+    if (!canBeHeld || this.props.isTurnsInitialRoll) {
       return;
     }
     // **************** old way
     // check if die can be held.
     // if die can be held
-    this.setState(prevState => ({
-      ...prevState,
-      diceMarkedToHold: {
-        ...prevState.diceMarkedToHold,
-        [diceId]: !prevState.diceMarkedToHold[diceId]
-      }
-    }))
+    // this.setState(prevState => ({
+    //   ...prevState,
+    //   diceMarkedToHold: {
+    //     ...prevState.diceMarkedToHold,
+    //     [diceId]: !prevState.diceMarkedToHold[diceId]
+    //   }
+    // }))
 
     // **************** New Way
     this.props.toggleToHold(diceId);
   }
 
   checkDieCanBeHeld = (diceId) => {
+    // if it's a new persons turn, the dice can't be held!
+
+
     const { dice } = this.props;
     const currentDieValue = dice[diceId].value;
     // calculate numOfAKind
@@ -77,7 +80,6 @@ class Table extends Component {
   render() {
 
     const { dice, advanceTurnEnabled } = this.props;
-    const { diceMarkedToHold } = this.state;
 
     return (
       <div id='table' >
