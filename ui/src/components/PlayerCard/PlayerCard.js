@@ -48,6 +48,9 @@ export class PlayerCard extends Component {
 
   endTurn = () => {
     console.log('end turn');
+    // score currentRollScore
+
+    // changeTurn
   }
 
   roll = () => {

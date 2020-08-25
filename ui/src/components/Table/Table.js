@@ -39,18 +39,7 @@ class Table extends Component {
     if (!canBeHeld || this.props.isTurnsInitialRoll) {
       return;
     }
-    // **************** old way
-    // check if die can be held.
-    // if die can be held
-    // this.setState(prevState => ({
-    //   ...prevState,
-    //   diceMarkedToHold: {
-    //     ...prevState.diceMarkedToHold,
-    //     [diceId]: !prevState.diceMarkedToHold[diceId]
-    //   }
-    // }))
 
-    // **************** New Way
     this.props.toggleToHold(diceId);
   }
 
