@@ -2,6 +2,7 @@ const initialState = {
   canEndTurn: false,
   checkedForPeezda: false,
   currentRollScore: 0,
+  firstToFinish: -1,
   gameInSession: false,
   isTurnsInitialRoll: false,
   players: {},
@@ -132,6 +133,11 @@ const game = (state = initialState, action) => {
     case 'HOLD_DICE':
       return {...state,
         dice: action.newDice
+      }
+
+    case 'MARK_FIRST_TO_FINISH':
+      return { ...state,
+        firstToFinish: action.playerId
       }
 
     case 'TOGGLE_MARKED_TO_HOLD':
