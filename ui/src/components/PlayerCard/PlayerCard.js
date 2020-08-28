@@ -3,7 +3,14 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import ComputerPlayer from '../ComputerPlayer/ComputerPlayer.js';
 import HumanPlayer from '../HumanPlayer/HumanPlayer.js';
-import { preRoll, roll, disallowPlayerToRoll, enablePlayerToRoll, updateCurrentRollScore } from '../../redux/actions/gameActions';
+import {
+  preRoll,
+  roll,
+  disallowPlayerToRoll,
+  enablePlayerToRoll,
+  scoreTurn,
+  updateCurrentRollScore
+} from '../../redux/actions/gameActions';
 import { isScoringDiceHeld, playerCanEndTurn } from '../../utility/rules.js';
 
 export class PlayerCard extends Component {
@@ -49,8 +56,10 @@ export class PlayerCard extends Component {
   endTurn = () => {
     console.log('end turn');
     // score currentRollScore
-
+    this.props.scoreTurn(this.props.dice);
     // changeTurn
+    this.props.disallowPlayerToRoll(this.props.playerId)
+    this.props.turnOverToNextPlayer();
   }
 
   roll = () => {
@@ -122,6 +131,7 @@ const mapDispatchToProps = dispatch => {
     disallowPlayerToRoll: (playerID) => dispatch(disallowPlayerToRoll(playerID)),
     preRoll: (playerID) => dispatch(preRoll(playerID)),
     roll: (dice) => dispatch(roll(dice)),
+    scoreTurn: (dice) => dispatch(scoreTurn(dice)),
     updateCurrentRollScore: (dice) => dispatch(updateCurrentRollScore(dice))
   }
 }

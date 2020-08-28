@@ -145,6 +145,22 @@ const game = (state = initialState, action) => {
         }
       }
 
+    case 'SCORE_TURN':
+      const turnScore = state.currentRollScore + action.diceMarkedHeldScore
+      console.log(turnScore);
+      console.log(state.players[state.turn].score)
+      const newScore = turnScore + state.players[state.turn].score;
+      return {...state,
+          players: {
+            ...state.players,
+            [state.turn]: {
+              ...state.players[state.turn],
+              score: newScore
+            }
+          }
+        }
+
+
     case 'UNMARK_HELD_DICE':
       return {...state,
         dice: action.newDice

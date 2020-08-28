@@ -89,6 +89,7 @@ class Game extends Component {
           players={ players }
           turn={ turn }
           dice = { dice }
+          turnOverToNextPlayer = { this.turnOverToNextPlayer }
         />
         <Table
           dice = { dice }

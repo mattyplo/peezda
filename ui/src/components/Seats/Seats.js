@@ -22,6 +22,7 @@ class Seats extends Component {
             isTurn={isTurn}
             preGameRollOff={players[id].preGameRollOff}
             rollIsEnabled={players[id].rollIsEnabled}
+            turnOverToNextPlayer={this.props.turnOverToNextPlayer}
           />
         )}
       )}
