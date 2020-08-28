@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { canEndTurn, changeTurn, determineOrder, markCheckedForPeezda, unmarkDiceHeld } from '../../redux/actions/gameActions';
-import { calculateNextPlayersTurn, isPeezda } from '../../utility/rules.js';
+import { canEndTurn, changeTurn, determineOrder, markCheckedForPeezda, markFirstToFinish, unmarkDiceHeld } from '../../redux/actions/gameActions';
+import { calculateNextPlayersTurn, getDiceMarkedToHold, getScoreOfDice, isPeezda } from '../../utility/rules.js';
 import Seats from '../Seats/Seats.js';
 import Table from '../Table/Table.js';
 import './Game.css'
@@ -21,12 +21,23 @@ class Game extends Component {
 
   componentDidUpdate(prevProps) {
     const { checkedForPeezda,
+            firstToFinish,
             turn,
             players,
             determineOrder,
             dice,
             currentRollScore,
             canEndTurn } = this.props;
+
+    // Check if the game is over.
+    if (firstToFinish === turn) {
+      // game over
+      console.log("game over.  Player " + turn + " wins!");
+      // determine winner
+
+      // end game, display winner, collect $200
+    }
+
     // if turn is null, we need to determine who rolls first
     if (turn === null && prevProps.players !== players) {
       // check if all players have rolled.
@@ -57,9 +68,18 @@ class Game extends Component {
   }
 
   turnOverToNextPlayer = () => {
-    const { changeTurn, dice, unmarkDiceHeld, turn, players } = this.props;
+    const { changeTurn, currentRollScore, dice, firstToFinish, unmarkDiceHeld, turn, players } = this.props;
     const numPlayers = Object.keys(players).length;
     const nextPlayersTurn = calculateNextPlayersTurn(turn, numPlayers);
+    // check if player hit the 10000 point mark
+    const playersExistingScore = players[turn].score;
+    const diceMarkedToHold = getDiceMarkedToHold(dice);
+    const scoreOfDiceMarkedToHold = getScoreOfDice(diceMarkedToHold);
+    const currentScore = playersExistingScore + scoreOfDiceMarkedToHold + currentRollScore;
+    if (firstToFinish === -1 && currentScore >= 1000) {
+      this.props.markFirstToFinish(turn);
+    }
+    // clear dice & advance to next persons turn
     unmarkDiceHeld(dice);
     changeTurn(nextPlayersTurn);
   }
@@ -110,17 +130,19 @@ const mapDispatchToProps = dispatch => {
     changeTurn: (playerId) => dispatch(changeTurn(playerId)),
     determineOrder: (players) => dispatch(determineOrder(players)),
     markCheckedForPeezda: () => dispatch(markCheckedForPeezda()),
+    markFirstToFinish: (playerId) => dispatch(markFirstToFinish(playerId)),
     unmarkDiceHeld: (dice) => dispatch(unmarkDiceHeld(dice))
   }
 }
 
 const mapStateToProps = (state) => {
 
-  const { checkedForPeezda, currentRollScore, isTurnsInitialRoll, players, turn, dice } = state.game;
+  const { checkedForPeezda, currentRollScore, firstToFinish, isTurnsInitialRoll, players, turn, dice } = state.game;
 
   return {
     checkedForPeezda,
     currentRollScore,
+    firstToFinish,
     isTurnsInitialRoll,
     players,
     turn,
